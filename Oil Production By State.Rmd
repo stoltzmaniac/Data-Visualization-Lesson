@@ -1,0 +1,130 @@
+---
+title: "Oil Production By State"
+author: "Scott Stoltzman"
+date: "March 8, 2017"
+output: html_document
+---
+
+```{r setup, warning=FALSE,echo=FALSE,include=FALSE}
+source('data_preparation.R')
+library(ggplot2)
+library(dplyr)
+data = getData()
+```
+
+```{r}
+head(data)
+```
+
+
+```{r}
+df = data %>% 
+  group_by(Year) %>%
+  summarise(ThousandBarrel = sum(ThousandBarrel))
+p = ggplot(df,aes(x=Year,y=ThousandBarrel,group=1))
+p + geom_line(stat='identity') + 
+  ggtitle('Oil Production By Year in the U.S.') + 
+  theme(plot.title = element_text(hjust = 0.5)) + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+
+```{r,echo=FALSE,warning=FALSE}
+top10 = data %>%
+  group_by(Location) %>%
+  summarise(ThousandBarrel = sum(ThousandBarrel)) %>%
+  arrange(-ThousandBarrel) %>%
+  top_n(10)
+print(top10)
+```
+
+
+
+```{r,echo=FALSE,warning=FALSE,fig.width=10}
+topN = data %>%
+  group_by(Location) %>%
+  summarise(ThousandBarrel = sum(ThousandBarrel)) %>%
+  arrange(-ThousandBarrel) %>%
+  top_n(6)
+
+df = data %>%
+  filter(Location %in% topN$Location) %>%
+  group_by(Year,Location) %>%
+  summarise(ThousandBarrel = sum(ThousandBarrel))
+df$Year = as.numeric(df$Year)
+p = ggplot(df,aes(x=Year,y=ThousandBarrel,group=1))
+p + geom_line(stat='identity') + 
+  ggtitle('Top 6 States - Oil Production By Year in the U.S.') + 
+  theme(plot.title = element_text(hjust = 0.5)) + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
+  facet_wrap(~Location)
+
+```
+
+
+
+
+```{r}
+df = data %>% 
+  group_by(Location) %>%
+  summarise(ThousandBarrel = sum(ThousandBarrel)) %>%
+  arrange(-ThousandBarrel)
+p = ggplot(df,aes(x=reorder(Location,ThousandBarrel),y=ThousandBarrel))
+p + geom_bar(stat='identity') + 
+  ggtitle('Oil Production 1981 - 2016 By Location') + 
+  theme(plot.title = element_text(hjust = 0.5)) + 
+  coord_flip()
+```
+
+
+
+
+
+```{r}
+df = data %>% 
+  group_by(Location,Year) %>%
+  filter(Location %in% top10$Location) %>%
+  summarise(ThousandBarrel = sum(ThousandBarrel)) 
+p = ggplot(df,aes(x=Year,y=ThousandBarrel,col=Location,fill=Location))
+p + geom_bar(stat='identity') + 
+  ggtitle('Oil Production - Top 10 States') + 
+  theme(plot.title = element_text(hjust = 0.5)) + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+
+
+```{r, fig.width=10}
+df = data %>%
+  filter(Year == 1990)%>%
+  group_by(Location) %>%
+  summarise(ThousandBarrel = sum(ThousandBarrel))
+df$Location = tolower(df$Location)
+
+#Add States without data
+States = data.frame(Location = tolower(as.character(state.name)))
+missingStates = States$Location[!(States$Location %in% df$Location)]
+appendData = data.frame(Location=missingStates,ThousandBarrel=0)
+df = rbind(df,appendData)
+
+states_map <- map_data("state")
+
+ggplot(df, aes(map_id = Location)) + 
+    geom_map(aes(fill=ThousandBarrel), map = states_map) +
+    expand_limits(x = states_map$long, y = states_map$lat)
+
+```
+
+
+```{r}
+df = data %>% 
+  filter(Location == 'Texas') %>%
+  group_by(Year,Month) %>%
+  summarise(ThousandBarrel = sum(ThousandBarrel))
+
+p = ggplot(df,aes(x=Month,y=ThousandBarrel))
+p + geom_line(stat='identity',aes(group=Year,col=Year)) + 
+  ggtitle('Oil Production By Year in the U.S.') + 
+  theme(plot.title = element_text(hjust = 0.5)) + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
