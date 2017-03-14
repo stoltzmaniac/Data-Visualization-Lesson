@@ -1,0 +1,171 @@
+---
+title: "Data Visualization - Part 1"
+subtitle: "The Good, The Bad and The Ugly"
+author: "Scott Stoltzman"
+date: "March 14, 2017"
+output: html_document
+---
+
+----  
+
+# Data Visualization - A Quick Overview of the ggplot2 in R
+
+```{r, fig.align='center',echo=FALSE}
+library(png)
+library(grid)
+img = readPNG("images/title_photo.png")
+grid.raster(img)
+```
+
+
+### Why should you use ggplot2?  
+1. More robust plotting than base plot package
+2. Better control over aesthetics - colors, axes, background, etc.
+3. Layering
+4. Variable Mapping (aes)
+5. Automatic aggregation of data
+6. Built in formulas & plotting (geom_smooth)
+7. The list goes on and on...  
+
+Basically, ggplot2 allows for a lot more customization of plots with a lot less code (the rest of it is behind the scenes). Once you are used to the syntax, there's no going back. It's faster and easier.
+
+### What's the downside to using ggplot2?  
+1. A bit of a learning curve
+2. No interactivity
+
+I'll go through some of the examples from the [Top 50 ggplot2 Visualizations Master List](http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html). I will be using their examples exactly but will explain what's going on.  
+
+**Note:** I believe the intention of the author of the [Top 50 ggplot2 Visualizations Master List](http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html) was to illustrate how to use ggplot2 rather than doing a full demonstration of what important data visualization techniques are - so keep that in mind as I go through these examples. Some of the visuals do not line up with my initial 
+
+As usual, some packages must be loaded.
+```{r, results='hide', warning=FALSE, message=FALSE,}
+library(reshape2)
+library(lubridate)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(scales)
+```
+
+### The Scatterplot  
+
+This can be an incredibly powerful tool for data analysis. However, you have to be careful when using it because it's primarily used by people doing analysis and not reporting (depending on what industry you're in).
+
+The author of this chart was looking for a correlation between area and population. 
+
+```{r, warning=FALSE}
+options(scipen=999)  # turn-off scientific notation like 1e+48
+theme_set(theme_bw())  # pre-set the bw theme.
+data("midwest", package = "ggplot2")
+
+# Scatterplot
+p = ggplot(midwest, aes(x=area, y=poptotal))  
+p + geom_point(aes(col=state, size=popdensity)) + 
+  geom_smooth(method="loess", se=F) + 
+  xlim(c(0, 0.1)) + 
+  ylim(c(0, 500000)) + 
+  labs(subtitle="Area Vs Population", 
+       y="Population", 
+       x="Area", 
+       title="Scatterplot", 
+       caption = "Source: midwest")
+```
+
+
+#
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r}
+data(economics,package='ggplot2') # load the economics data
+econ = melt(economics[, c("date", "pce", "unemploy", "psavert")], id="date")
+df = econ %>%
+  filter(variable == 'pce') %>%
+  group_by(date) %>%
+  summarise(pce = sum(value))
+```
+
+```{r}
+plot(df,type='l')
+```
+
+
+```{r}
+p = ggplot(df, aes(x=date, y=pce, group=1))
+p + geom_line() + scale_x_date()
+```
+
+
+
+
+```{r}
+p = ggplot(econ, aes(x=date))
+p + geom_line(aes(y=value,col=variable))
+```
+
+```{r}
+p + geom_line(aes(y=value)) + facet_wrap(~variable)
+```
+
+```{r}
+p + geom_line(aes(y=value)) + facet_wrap(~variable,ncol=1)
+```
+
+
+```{r}
+p + geom_line(aes(y=value)) + facet_wrap(~variable,ncol=1,scales='free')
+```
+
+```{r}
+df = econ %>%
+  spread(variable,value)
+p = ggplot(df)
+p + geom_point(aes(x=pce,y=psavert))
+```
+
+```{r}
+econ$year = year(econ$date)
+econ$decade = '1960s'
+econ$decade[econ$year >= 1970] = '1970s'
+econ$decade[econ$year >= 1980] = '1980s'
+econ$decade[econ$year >= 1990] = '1990s'
+econ$decade[econ$year >= 2000] = '2000s'
+econ$decade[econ$year >= 2010] = '2010s'
+econ$decade = as.factor(econ$decade)
+
+df = econ %>%
+  spread(variable,value)
+p = ggplot(df)
+p + geom_point(aes(x=pce,y=psavert,col=decade))
+```
+
+```{r}
+p + geom_bar(aes(x=decade,y=unemploy),stat='identity')
+```
+
+
+As always, the code used in this post is on my [GitHub](https://github.com/stoltzmaniac/Data-Visualization-Lesson)

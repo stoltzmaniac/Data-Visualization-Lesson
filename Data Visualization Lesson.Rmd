@@ -1,5 +1,5 @@
 ---
-title: "Data Visualization"
+title: "Data Visualization - Introduction"
 subtitle: "The Good, The Bad and The Ugly"
 author: "Scott Stoltzman"
 date: "March 10, 2017"
@@ -10,29 +10,41 @@ output: html_document
 library(png)
 library(grid)
 ```
-
 ----  
 
-# Data Viz Ain't Easy
+# A Lesson on Data Visualization - Introduction  
 
-In almost every business meeting you'll attend, you will see a poorly designed chart, graph, or other visual representation of data. Most people simply lack the education required to emphasize a point.  
+```{r, fig.align='center',echo=FALSE}
+img = readPNG("images/title_photo.png")
+grid.raster(img)
+```
 
-Bad visualizations can be:  
+The topic of data visualization is still very popular in the data science community. The market size for visualization products is valued at $4 Billion and is projected to reach 
+$7 Billion by the end of 2022 according to [Mordor Intelligence.](https://www.mordorintelligence.com/industry-reports/data-visualization-applications-market-future-of-decision-making-industry) While we have seen amazing advances in the technology to display information, the understanding of how, why, and when to use visualization techniques has not kept up. Unfortunately, people are often taught how to make a chart before even thinking about whether or not it's appropriate.  
 
-- Difficult or impossible to interpret
-- Filled with completely worthless information
-- Misleading (intentionally or unintentionally)
-- Redundant and boring
-- Inaccurate
+This is the first post of many on how to utilize data visualization techniques effectively. I will focus primarily on use cases in R but visualizations go well beyond charts and graphs.
 
+----
 
-I have to give credit to [Junk Charts](http://junkcharts.typepad.com/j) - it inspired a lot of this post.
+## Questions to ask before starting your project:  
+
+1. Is the information complex enough to require any visual aid?  
+2. Do you understand your audience well enough for this to provide value?
+3. Can you tailor the material to your audience?
+4. Will anyone learn anything by looking at it?
+5. Will it accurately reflect the data?
+
+In short, are you adding value to your work or are you simply adding this to make it seem ***less boring?***
+
+This introduction should whet your appetite if you're interested in learning more. This is a broad view of some data visualization techniques in R using ggplot2.
 
 ---- 
 
-## Let's take a look at some examples
+## Let's take a look at some examples  
 
-### Every Death in Shakespeare
+I have to give credit to [Junk Charts](http://junkcharts.typepad.com/) - it inspired a lot of this post.
+
+### One author wanted to show the cause of death in all of Shakespeare
 **Could you imagine a worse way to show this??**  
 
 ```{r, fig.align='center',echo=FALSE}
@@ -43,18 +55,25 @@ grid.raster(img)
 
 **Is this not insane!?!?!**  
 
-No one could ever glance at that and possibly want to read it. The only thing that would have made it worse would be if there had been a legend instead of data callouts. The author could easily have used a number of other tools to get the point across. I hate wordles but due to the fact that the article wasn't trying to show the exact proportions of type of deaths, a wordle easily illustrated the point.
+Using a legend instead of data callouts is the only thing that could have made this worse. The author could easily have used a number of other tools to get the point across. I hate wordles but due to the fact that the article wasn't trying to show the exact proportions, a wordle easily illustrates the point (a point made by [Junk Charts Article](http://junkcharts.typepad.com/junk_charts/2016/03/which-way-to-die-the-bard-asked-onelesspie.html)).
   
 
 ```{r, fig.align='center',echo=FALSE}
 img = readPNG("images/bad-pie1-fix.png")
 grid.raster(img)
 ```
-This example came from this [Junk Charts Article](http://junkcharts.typepad.com/junk_charts/2016/03/which-way-to-die-the-bard-asked-onelesspie.html)
-
 ----  
 
-To be clear, I'm not even close to being perfect when it comes to visualizations in my blog. The sizes, shapes, font colors, etc. tend to get out of control and I don't want to take the time in R to tinker with all of the details. However, when it comes to displaying things professionally, it has to be spot on! So, we'll look at the theory and not worry too much about aesthetics (save that for a time when you're getting paid).
+To be clear, I'm not close to being perfect when it comes to visualizations in my blog. The sizes, shapes, font colors, etc. tend to get out of control and I don't take the time in R to tinker with all of the details. However, when it comes to displaying things professionally, it has to be spot on! So, we'll look at the theory and not worry too much about aesthetics (save that for a time when you're getting paid).
+
+
+Bad visualizations can be:  
+
+- Difficult or impossible to interpret
+- Filled with completely worthless information
+- Misleading (intentionally or unintentionally)
+- Redundant and boring
+- Inaccurate
 
 Let's load up some libraries and get started.
 
