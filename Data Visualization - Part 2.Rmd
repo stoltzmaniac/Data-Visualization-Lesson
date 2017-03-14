@@ -35,7 +35,7 @@ Basically, ggplot2 allows for a lot more customization of plots with a lot less 
 
 I'll go through some of the examples from the [Top 50 ggplot2 Visualizations Master List](http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html). I will be using their examples exactly but will explain what's going on.  
 
-**Note:** I believe the intention of the author of the [Top 50 ggplot2 Visualizations Master List](http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html) was to illustrate how to use ggplot2 rather than doing a full demonstration of what important data visualization techniques are - so keep that in mind as I go through these examples. Some of the visuals do not line up with my initial 
+**Note:** I believe the intention of the author of the [Top 50 ggplot2 Visualizations Master List](http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html) was to illustrate how to use ggplot2 rather than doing a full demonstration of what important data visualization techniques are - so keep that in mind as I go through these examples. Some of the visuals do not line up with my best practices addressed in the first data visualization post.
 
 As usual, some packages must be loaded.
 ```{r, results='hide', warning=FALSE, message=FALSE,}
@@ -45,21 +45,39 @@ library(dplyr)
 library(tidyr)
 library(ggplot2)
 library(scales)
+library(gridExtra)
 ```
 
 ### The Scatterplot  
 
-This can be an incredibly powerful tool for data analysis. However, you have to be careful when using it because it's primarily used by people doing analysis and not reporting (depending on what industry you're in).
+This is one of the most visually powerful tool for data analysis. However, you have to be careful when using it because it's primarily used by people doing analysis and not reporting (depending on what industry you're in).
 
 The author of this chart was looking for a correlation between area and population. 
 
-```{r, warning=FALSE}
+`p = ggplot(data = midwest, aes(x = area, y = poptotal))` is setting up the initial plot. There are a lot of different ways to do this in ggplot2 but this is a fairly common method.
+
+`data = midwest` is straightforward (using the midwest data frame)
+`aes(x = area, y = poptotal)` this is mapping the variables. You'll notice that "area" and "poptotal" are both columns in the data frame. Think of this plot being
+
+```{r, warning=FALSE, fig.align='center'}
 options(scipen=999)  # turn-off scientific notation like 1e+48
 theme_set(theme_bw())  # pre-set the bw theme.
 data("midwest", package = "ggplot2")
 
 # Scatterplot
-p = ggplot(midwest, aes(x=area, y=poptotal))  
+
+p1 = plot(midwest$area,midwest$poptotal) #base
+
+p2 = ggplot(data = midwest, aes(x = area, y = poptotal)) + geom_point()  #ggplot
+
+arrangeGrob(p1, p2)
+```
+
+
+
+While the addition of the size of the points and color don't add any value, it does show the level of customization that's possible with ggplot2.
+
+```{r}
 p + geom_point(aes(col=state, size=popdensity)) + 
   geom_smooth(method="loess", se=F) + 
   xlim(c(0, 0.1)) + 
@@ -70,6 +88,7 @@ p + geom_point(aes(col=state, size=popdensity)) +
        title="Scatterplot", 
        caption = "Source: midwest")
 ```
+
 
 
 #

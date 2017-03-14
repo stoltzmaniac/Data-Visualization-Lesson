@@ -1,0 +1,2 @@
+"0","p = ggplot(data = midwest, aes(x = area, y = poptotal))  #ggplot"
+"0","p + geom_point()"

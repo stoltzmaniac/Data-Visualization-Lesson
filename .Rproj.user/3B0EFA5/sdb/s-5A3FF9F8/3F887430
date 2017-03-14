@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "library(knitr)\n# Set figure dimensions\n#opts_chunk$set(fig.width=5, fig.height=5)\n# Set figures to upload to imgur.com\nopts_knit$set(upload.fun = imgur_upload, base.url = NULL)\n\nrmd.file <- \"Data Visualization - Part 1.Rmd\"\n# Knit the .Rmd file\nknit(rmd.file)\n# Set up input/ output files\nmarkdown.file <- gsub(pattern = \"Rmd$\", replacement = \"md\", x = rmd.file)\nhtml.file <- gsub(pattern = \"md$\", replacement = \"_pub.html\", x = markdown.file)\n\nlibrary(markdown)\n# Removes 'yaml' information\nmarkdownToHTML(file = markdown.file, output = html.file, fragment.only = TRUE)\n\nlibrary(RWordPress)\n# Set your WP username, password, and your site URL\noptions(WordpressLogin = c(stoltzmaniac = 'ejkDD$$ckckslppzzzekAABV'),\n        WordpressURL = 'https://stoltzmaniac.com/xmlrpc.php')\n# Create a line-by-line text vector\ntext = paste(readLines(html.file), collapse = \"\\n\")\n# Send to Worpdress\nnewPost(list(description = text, title = \"Data Visualization - Part 1\"), publish = FALSE)\n",
+    "created" : 1489416648044.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1148772057",
+    "id" : "3F887430",
+    "lastKnownWriteTime" : 1489509522,
+    "last_content_update" : 1489509522753,
+    "path" : "~/Desktop/uploading to wp.R",
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
