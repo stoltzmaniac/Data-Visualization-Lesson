@@ -1,5 +1,5 @@
 ---
-title: "Data Visualization - Part 1"
+title: "Data Visualization - Part 2"
 subtitle: "The Good, The Bad and The Ugly"
 author: "Scott Stoltzman"
 date: "March 14, 2017"
@@ -8,18 +8,24 @@ output: html_document
 
 ----  
 
-# Data Visualization - A Quick Overview of the ggplot2 in R
+# Data Visualization - Part 2
+
+##A Quick Overview of the ggplot2 Package in R  
+
+While it will be important to focus on theory, I want to explain the ggplot2 package because I will be using it throughout the rest of this series. It's an incredibly powerful package and once you wrap your head around what it's doing, your life will change for the better! There are a lot of tools out there which provide better charts, graphs and ease of use (i.e. plot.ly, d3.js, Qlik, Tableau), but ggplot2 is still a fantastic resource and I use it all of the time. 
+
+In case you missed it, here's a link to [Data Visualization - Part 1](https://www.stoltzmaniac.com/data-visualization-part-1/)
 
 ```{r, fig.align='center',echo=FALSE}
 library(png)
 library(grid)
-img = readPNG("images/title_photo.png")
+img = readPNG("images/title_photo_2.png")
 grid.raster(img)
 ```
 
 
 ### Why should you use ggplot2?  
-1. More robust plotting than base plot package
+1. More robust plotting than the base plot package
 2. Better control over aesthetics - colors, axes, background, etc.
 3. Layering
 4. Variable Mapping (aes)
@@ -29,16 +35,51 @@ grid.raster(img)
 
 Basically, ggplot2 allows for a lot more customization of plots with a lot less code (the rest of it is behind the scenes). Once you are used to the syntax, there's no going back. It's faster and easier.
 
-### What's the downside to using ggplot2?  
+### Why wouldn't you use ggplot2?  
 1. A bit of a learning curve
-2. No interactivity
+2. Lack of user interactivity with the plots  
 
 I'll go through some of the examples from the [Top 50 ggplot2 Visualizations Master List](http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html). I will be using their examples exactly but will explain what's going on.  
 
-**Note:** I believe the intention of the author of the [Top 50 ggplot2 Visualizations Master List](http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html) was to illustrate how to use ggplot2 rather than doing a full demonstration of what important data visualization techniques are - so keep that in mind as I go through these examples. Some of the visuals do not line up with my best practices addressed in the first data visualization post.
+**Note:** I believe the intention of the author of the [Top 50 ggplot2 Visualizations Master List](http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html) was to illustrate how to use ggplot2 rather than doing a full demonstration of what important data visualization techniques are - so keep that in mind as I go through these examples. Some of the visuals do not line up with my best practices addressed in my [first post on data visualization](https://www.stoltzmaniac.com/data-visualization-part-1/).
+
+
+Fundamentally, ggplot2 gives the user the ability to start a plot and layer everything in. There are many ways to accomplish the same thing, so figure out what makes sense for you and stick to it.  
+
+**A Basic Example: Unemployment Over Time**  
+
+```{r,results='hide', warning=FALSE, message=FALSE}
+library(dplyr)
+library(ggplot2)
+data(economics,package='ggplot2') # load the economics data
+df = economics %>%
+  select(date,unemploy)
+ggplot(data = df) + geom_line(aes(x = date, y = unemploy))
+```
+
+### What happened to get that?  
+
+- `ggplot(df)` loaded the data frame
+- `+` tells ggplot() that there is more to be added to the plot
+- `geom_line()` defined the type of plot
+- `aes(x = date, y = unemploy)` mapped the variables
+
+The `aes()` portion is what typically throws new users off but is the essence of ggplot2. In simple terms, this is what "auto-magically" brings your plot to life. You are telling ggplot2, "I want 'date' to be on the x-axis and 'unemploy' to be on the y-axis." That's pretty straightforward in this case but there are more complex use cases as well.
+
+***Side Note:*** you could have achieved the same result by mapping the variables in the ggplot() function rather than in geom_line():
+`ggplot(data = df, aes(x = date, y = unemploy)) + geom_line()`
+
+### Here's the basic formula for success:
+
+- Everything in ggplot starts with `ggplot(data)` and utilizes `+` to add on every element thereafter
+- Include your data frame (df) in a ggplot function: `ggplot(data = df)`  
+- Input the type of plot you would like (i.e. line chart of sales over time): `+ geom_line(aes(x = date, y = sales))`
+    - There are ***a lot*** of types of plots - check them out [here](http://docs.ggplot2.org/current/)
+- 
+
 
 As usual, some packages must be loaded.
-```{r, results='hide', warning=FALSE, message=FALSE,}
+```{r, results='hide', warning=FALSE, message=FALSE}
 library(reshape2)
 library(lubridate)
 library(dplyr)
