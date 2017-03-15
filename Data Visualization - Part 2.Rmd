@@ -39,11 +39,6 @@ Basically, ggplot2 allows for a lot more customization of plots with a lot less 
 1. A bit of a learning curve
 2. Lack of user interactivity with the plots  
 
-I'll go through some of the examples from the [Top 50 ggplot2 Visualizations Master List](http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html). I will be using their examples exactly but will explain what's going on.  
-
-**Note:** I believe the intention of the author of the [Top 50 ggplot2 Visualizations Master List](http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html) was to illustrate how to use ggplot2 rather than doing a full demonstration of what important data visualization techniques are - so keep that in mind as I go through these examples. Some of the visuals do not line up with my best practices addressed in my [first post on data visualization](https://www.stoltzmaniac.com/data-visualization-part-1/).
-
-
 Fundamentally, ggplot2 gives the user the ability to start a plot and layer everything in. There are many ways to accomplish the same thing, so figure out what makes sense for you and stick to it.  
 
 **A Basic Example: Unemployment Over Time**  
@@ -51,34 +46,53 @@ Fundamentally, ggplot2 gives the user the ability to start a plot and layer ever
 ```{r,results='hide', warning=FALSE, message=FALSE}
 library(dplyr)
 library(ggplot2)
-data(economics,package='ggplot2') # load the economics data
-df = economics %>%
-  select(date,unemploy)
-ggplot(data = df) + geom_line(aes(x = date, y = unemploy))
+
+# Load the economics data from ggplot2
+data(economics,package='ggplot2')
 ```
+
+```{r}
+# Take a look at the format of the data
+head(economics)
+```
+
+
+```{r}
+# Create the plot
+ggplot(data = economics) + geom_line(aes(x = date, y = unemploy))
+```
+
+
 
 ### What happened to get that?  
 
-- `ggplot(df)` loaded the data frame
+- `ggplot(economics)` loaded the data frame
 - `+` tells ggplot() that there is more to be added to the plot
 - `geom_line()` defined the type of plot
 - `aes(x = date, y = unemploy)` mapped the variables
 
-The `aes()` portion is what typically throws new users off but is the essence of ggplot2. In simple terms, this is what "auto-magically" brings your plot to life. You are telling ggplot2, "I want 'date' to be on the x-axis and 'unemploy' to be on the y-axis." That's pretty straightforward in this case but there are more complex use cases as well.
+The `aes()` portion is what typically throws new users off but is my favorite feature of ggplot2. In simple terms, this is what "auto-magically" brings your plot to life. You are telling ggplot2, "I want 'date' to be on the x-axis and 'unemploy' to be on the y-axis." It's pretty straightforward in this case but there are more complex use cases as well.
 
 ***Side Note:*** you could have achieved the same result by mapping the variables in the ggplot() function rather than in geom_line():
-`ggplot(data = df, aes(x = date, y = unemploy)) + geom_line()`
+`ggplot(data = economics, aes(x = date, y = unemploy)) + geom_line()`
 
 ### Here's the basic formula for success:
 
-- Everything in ggplot starts with `ggplot(data)` and utilizes `+` to add on every element thereafter
-- Include your data frame (df) in a ggplot function: `ggplot(data = df)`  
-- Input the type of plot you would like (i.e. line chart of sales over time): `+ geom_line(aes(x = date, y = sales))`
-    - There are ***a lot*** of types of plots - check them out [here](http://docs.ggplot2.org/current/)
-- 
+- Everything in ggplot2 starts with `ggplot(data)` and utilizes `+` to add on every element thereafter
+- Include your data frame (economics) in a ggplot function: `ggplot(data = economics)`  
+- Input the type of plot you would like (i.e. line chart of unemployment over time): `+ geom_line(aes(x = date, y = unemploy))`
+    - "geom" stands for "geometric object" and determines the type of object (there can be more than one type per plot)
+    - There are ***a lot*** of types of geometric objects - check them out [here](http://docs.ggplot2.org/current/)
+- Add in layers and utilize `fill` and `col` parameters within `aes()`
 
 
-As usual, some packages must be loaded.
+I'll go through some of the examples from the [Top 50 ggplot2 Visualizations Master List](http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html). I will be using their examples but I will also explain what's going on.  
+
+**Note:** I believe the intention of the author of the [Top 50 ggplot2 Visualizations Master List](http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html) was to illustrate how to use ggplot2 rather than doing a full demonstration of what important data visualization techniques are - so keep that in mind as I go through these examples. Some of the visuals do not line up with my best practices addressed in my [first post on data visualization](https://www.stoltzmaniac.com/data-visualization-part-1/).
+
+
+As usual, some packages must be loaded.  
+
 ```{r, results='hide', warning=FALSE, message=FALSE}
 library(reshape2)
 library(lubridate)
@@ -95,31 +109,29 @@ This is one of the most visually powerful tool for data analysis. However, you h
 
 The author of this chart was looking for a correlation between area and population. 
 
-`p = ggplot(data = midwest, aes(x = area, y = poptotal))` is setting up the initial plot. There are a lot of different ways to do this in ggplot2 but this is a fairly common method.
-
-`data = midwest` is straightforward (using the midwest data frame)
-`aes(x = area, y = poptotal)` this is mapping the variables. You'll notice that "area" and "poptotal" are both columns in the data frame. Think of this plot being
-
-```{r, warning=FALSE, fig.align='center'}
-options(scipen=999)  # turn-off scientific notation like 1e+48
-theme_set(theme_bw())  # pre-set the bw theme.
+```{r}
+# Use the "midwest"" data from ggplot2
 data("midwest", package = "ggplot2")
 
-# Scatterplot
-
-p1 = plot(midwest$area,midwest$poptotal) #base
-
-p2 = ggplot(data = midwest, aes(x = area, y = poptotal)) + geom_point()  #ggplot
-
-arrangeGrob(p1, p2)
+head(midwest)
 ```
 
+#### Here's the most basic version of the scatter plot  
 
+This can be called by `geom_point()` in ggplot2
 
-While the addition of the size of the points and color don't add any value, it does show the level of customization that's possible with ggplot2.
+```{r, warning=FALSE, fig.align='center'}
+# Scatterplot
+ggplot(data = midwest, aes(x = area, y = poptotal)) + geom_point()  #ggplot
+```
 
-```{r}
-p + geom_point(aes(col=state, size=popdensity)) + 
+#### Here's  version with some additional features  
+
+While the addition of the size of the points and color don't add value, it does show the level of customization that's possible with ggplot2.
+
+```{r, warning=FALSE,message=FALSE}
+ggplot(data = midwest, aes(x = area, y = poptotal)) + 
+geom_point(aes(col=state, size=popdensity)) + 
   geom_smooth(method="loess", se=F) + 
   xlim(c(0, 0.1)) + 
   ylim(c(0, 500000)) + 
