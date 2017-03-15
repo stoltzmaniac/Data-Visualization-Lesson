@@ -12,7 +12,7 @@ output: html_document
 
 ##A Quick Overview of the ggplot2 Package in R  
 
-While it will be important to focus on theory, I want to explain the ggplot2 package because I will be using it throughout the rest of this series. It's an incredibly powerful package and once you wrap your head around what it's doing, your life will change for the better! There are a lot of tools out there which provide better charts, graphs and ease of use (i.e. plot.ly, d3.js, Qlik, Tableau), but ggplot2 is still a fantastic resource and I use it all of the time. 
+While it will be important to focus on theory, I want to explain the ggplot2 package because I will be using it throughout the rest of this series. Knowing how it works will keep the focus on the results rather than the code. It's an incredibly powerful package and once you wrap your head around what it's doing, your life will change for the better! There are a lot of tools out there which provide better charts, graphs and ease of use (i.e. plot.ly, d3.js, Qlik, Tableau), but ggplot2 is still a fantastic resource and I use it all of the time. 
 
 In case you missed it, here's a link to [Data Visualization - Part 1](https://www.stoltzmaniac.com/data-visualization-part-1/)
 
@@ -142,102 +142,216 @@ geom_point(aes(col=state, size=popdensity)) +
        caption = "Source: midwest")
 ```
 
+#### Explanation:  
+
+`ggplot(data = midwest, aes(x = area, y = poptotal)) + `    
+Inputs the data and maps x and y variables as area and poptotal.  
+
+`geom_point(aes(col=state, size=popdensity)) + `  
+Creates a scatterplot and maps the color and size of points to state and popdensity.  
+
+`  geom_smooth(method="loess", se=F) + `  
+Creates a smoothing curve to fit the data. `method` is the type of fit and `se` determines whether or not to show error bars.
+
+`  xlim(c(0, 0.1)) + `  
+Sets the x-axis limits.  
+
+`  ylim(c(0, 500000)) + `  
+Sets the y-axis limits.  
+
+`labs(subtitle="Area Vs Population",`  
+
+`       y="Population",`  
+
+`       x="Area",`  
+
+`       title="Scatterplot",`  
+
+`       caption = "Source: midwest")`  
+Changes the labels of the subtitle, y-axis, x-axis, title and caption.
+
+Notice that the legend was automatically created and placed on the lefthand side. This is also highly customizable and can be changed easily.
 
 
-#
+### The Density Plot  
+
+Density plots are a great way to see how data is distributed. They are similar to histograms in a sense, but show values in terms of percentage of the total. In this example, the author used the mpg data set and is looking to see the different distributions of City Mileage based off of the number of cylinders the car has.
+
+```{r}
+# Examine the mpg data set
+head(mpg)
+```
+
+#### Sample Density Plot
+
+```{r}
+g = ggplot(mpg, aes(cty))
+g + geom_density(aes(fill=factor(cyl)), alpha=0.8) + 
+    labs(title="Density plot", 
+         subtitle="City Mileage Grouped by Number of cylinders",
+         caption="Source: mpg",
+         x="City Mileage",
+         fill="# Cylinders")
+
+```
+
+You'll notice one immediate difference here. The author decided to use the variable `g` to equal `ggplot(mpg, aes(cty))` - this is a nice trick and will save you some time if you plan on keeping `ggplot(mpg, aes(cty))` as the fundamental plot and simply exploring other visualizations on top of it. It is also handy if you need to save the output of a chart to an image file.
+
+`ggplot(mpg, aes(cty))` loads the mpg data and `aes(cty)` assumes `aes(x = cty)`  
+
+`g + geom_density(aes(fill=factor(cyl)), alpha=0.8) + `  
+`geom_density` kicks off a density plot and the mapping of `cyl` is used for colors. `alpha` is the transparency/opacity of the area under the curve.
+
+`    labs(title="Density plot",`  
+
+`         subtitle="City Mileage Grouped by Number of cylinders",`  
+
+`         caption="Source: mpg",`  
+
+`         x="City Mileage",`  
+
+`         fill="# Cylinders")`  
+Labeling is cleaned up at the end.
 
 
+#### How would you use your new knowledge to see the density by class instead of by # of cylinders?  
+
+***Hint: *** `g = ggplot(mpg, aes(cty))` has already been established.
+
+```{r}
+g + geom_density(aes(fill=factor(class)), alpha=0.8) + 
+    labs(title="Density plot", 
+         subtitle="City Mileage Grouped by Class",
+         caption="Source: mpg",
+         x="City Mileage",
+         fill="Class")
+```
+Notice how I didn't have to write out `ggplot()` again because it was already stored in the variable `g`.
+
+### The Histogram  
+
+How could we show the city mileage in a histogram?
+
+```{r}
+g = ggplot(mpg,aes(cty))
+g + geom_histogram(bins=20) +
+    labs(title="Histogram", 
+         caption="Source: mpg",
+         x="City Mileage")
+```  
+
+`geom_histogram(bins=20)` plots the histogram. If `bins` isn't set, ggplot2 will automatically set one.
 
 
+### The Bar/Column Chart  
 
+For all intensive purposes, bar and column charts are essentially the same. Technically, the term "column chart" can be used when the bars run vertically. The author of this chart was simply looking at the frequency of the vehicles listed in the data set.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+```{r}
+#Data Preparation
+freqtable <- table(mpg$manufacturer)
+df <- as.data.frame.table(freqtable)
+head(df)
+```
 
 
 ```{r}
-data(economics,package='ggplot2') # load the economics data
-econ = melt(economics[, c("date", "pce", "unemploy", "psavert")], id="date")
-df = econ %>%
-  filter(variable == 'pce') %>%
-  group_by(date) %>%
-  summarise(pce = sum(value))
+#Set a theme
+theme_set(theme_classic())
+
+g <- ggplot(df, aes(Var1, Freq))
+g + geom_bar(stat="identity", width = 0.5, fill="tomato2") + 
+      labs(title="Bar Chart", 
+           subtitle="Manufacturer of vehicles", 
+           caption="Source: Frequency of Manufacturers from 'mpg' dataset") +
+      theme(axis.text.x = element_text(angle=65, vjust=0.6))
 ```
+
+The addition of `theme_set(theme_classic())` adds a preset theme to the chart. You can create your own or select from a large list of themes. This can help set your work apart from others and save a lot of time.
+
+However, theme_set() is different than the `theme(axis.text.x = element_text(angle=65, vjust=0.6))` the one used inside the plot itself in this case. The author decided to tilt the text along the x-axis. `vjust=0.6` changes how far it is spaced away from the axis line.
+
+Within `geom_bar()` there is another new piece of information: `stat="identity"` which tells ggplot to use the actual value of `Freq`.
+
+You may also notice that ggplot arranged all of the data in alphabetical order based off of the manufacturer. If you want to change the order, it's best to use the `reorder()` function. This next chart will use the `Freq` and `coord_flip()` to orient the chart differently. 
 
 ```{r}
-plot(df,type='l')
+g <- ggplot(df, aes(reorder(Var1,Freq), Freq))
+g + geom_bar(stat="identity", width = 0.5, fill="tomato2") + 
+      labs(title="Bar Chart", 
+           x = 'Manufacturer',
+           subtitle="Manufacturer of vehicles", 
+           caption="Source: Frequency of Manufacturers from 'mpg' dataset") +
+      theme(axis.text.x = element_text(angle=65, vjust=0.6)) + 
+  coord_flip()
 ```
 
+Let's continue with bar charts - what if we wanted to see what `hwy` looked like by `manufacturer` and in terms of `cyl`?
 
 ```{r}
-p = ggplot(df, aes(x=date, y=pce, group=1))
-p + geom_line() + scale_x_date()
+g = ggplot(mpg,aes(x=manufacturer,y=hwy,col=factor(cyl),fill=factor(cyl)))
+g + geom_bar(stat='identity', position='dodge') + 
+  theme(axis.text.x = element_text(angle=65, vjust=0.6))
 ```
 
+`position='dodge'` had to be used because the default setting is to stack the bars, `'dodge'` places them side by side for comparison.  
 
-
+Despite the fact that the chart did what I wanted, it is very difficult to read due to how many manufacturers there are. This is where the `facet_wrap()` feature comes in handy.
 
 ```{r}
-p = ggplot(econ, aes(x=date))
-p + geom_line(aes(y=value,col=variable))
+theme_set(theme_bw())
+
+g = ggplot(mpg,aes(x=factor(cyl),y=hwy,col=factor(cyl),fill=factor(cyl)))
+g + geom_bar(stat='identity', position='dodge') + 
+  facet_wrap(~manufacturer)
+```
+This created a much nicer view of the information. It "auto-magically" split everything out by manufacturer!
+
+
+### Spatial Plots
+
+Another nice feature of ggplot2 is the integration with maps and spatial plotting. In this simple example, I wanted to plot a few cities in Colorado and draw a border around them. Notice that other than the addition of the map ggplot simply places the dots directly on the locations via their longitude and latitude "auto-magically."
+
+```{r, warning=FALSE, message=FALSE}
+library(ggmap)
+library(ggalt)
+
+foco <-  geocode("Fort Collins, CO")  # get longitude and latitude
+
+# Get the Map ----------------------------------------------
+colo_map <- qmap("Colorado, United States",zoom = 7, source = "google")   
+
+# Get Coordinates for Places ---------------------
+colo_places <- c("Fort Collins, CO",
+                    "Denver, CO",
+                    "Grand Junction, CO",
+                    "Durango, CO",
+                    "Pueblo, CO")
+
+places_loc <- geocode(colo_places)  # get longitudes and latitudes
+
+
+# Plot Open Street Map -------------------------------------
+colo_map + geom_point(aes(x=lon, y=lat),
+                             data = places_loc, 
+                             alpha = 0.7, 
+                             size = 7, 
+                             color = "tomato") + 
+                  geom_encircle(aes(x=lon, y=lat),
+                                data = places_loc, size = 2, color = "blue")
 ```
 
-```{r}
-p + geom_line(aes(y=value)) + facet_wrap(~variable)
-```
+### Final Thoughts  
 
-```{r}
-p + geom_line(aes(y=value)) + facet_wrap(~variable,ncol=1)
-```
+I hope you learned a lot about the basics of ggplot2 in this. It's extremely powerful but yet easy to use once you get the hang of it. The best way to really learn it is to try it out. Find some data on your own and try to manipulate it and get it plotted. Without a doubt, you will have all kinds of errors pop up, data you expect to be plotted won't show up, colors and fills will be different, etc. However, your visualizations will be leveled-up!
+
+### Coming soon:  
+
+- Determining whether or not you need a visualization  
+- Choosing the type of plot to use depending on the use case  
+- Visualization beyond the standard charts and graphs  
 
 
-```{r}
-p + geom_line(aes(y=value)) + facet_wrap(~variable,ncol=1,scales='free')
-```
-
-```{r}
-df = econ %>%
-  spread(variable,value)
-p = ggplot(df)
-p + geom_point(aes(x=pce,y=psavert))
-```
-
-```{r}
-econ$year = year(econ$date)
-econ$decade = '1960s'
-econ$decade[econ$year >= 1970] = '1970s'
-econ$decade[econ$year >= 1980] = '1980s'
-econ$decade[econ$year >= 1990] = '1990s'
-econ$decade[econ$year >= 2000] = '2000s'
-econ$decade[econ$year >= 2010] = '2010s'
-econ$decade = as.factor(econ$decade)
-
-df = econ %>%
-  spread(variable,value)
-p = ggplot(df)
-p + geom_point(aes(x=pce,y=psavert,col=decade))
-```
-
-```{r}
-p + geom_bar(aes(x=decade,y=unemploy),stat='identity')
-```
-
+I made some modifications to the code, but almost all of the examples here were from [Top 50 ggplot2 Visualizations - The Master List ](http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html). 
 
 As always, the code used in this post is on my [GitHub](https://github.com/stoltzmaniac/Data-Visualization-Lesson)
