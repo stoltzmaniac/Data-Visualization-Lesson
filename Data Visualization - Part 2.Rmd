@@ -1,9 +1,11 @@
 ---
 title: "Data Visualization - Part 2"
-subtitle: "The Good, The Bad and The Ugly"
 author: "Scott Stoltzman"
 date: "March 14, 2017"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
+subtitle: The Good, The Bad and The Ugly
 ---
 
 ----  
@@ -311,6 +313,8 @@ This created a much nicer view of the information. It "auto-magically" split eve
 ### Spatial Plots
 
 Another nice feature of ggplot2 is the integration with maps and spatial plotting. In this simple example, I wanted to plot a few cities in Colorado and draw a border around them. Notice that other than the addition of the map ggplot simply places the dots directly on the locations via their longitude and latitude "auto-magically."
+
+This map is created with `ggmap` which utilizes Google Maps API.
 
 ```{r, warning=FALSE, message=FALSE}
 library(ggmap)

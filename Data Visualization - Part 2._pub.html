@@ -1,0 +1,404 @@
+<hr/>
+
+<h1>Data Visualization - Part 2</h1>
+
+<p>##A Quick Overview of the ggplot2 Package in R  </p>
+
+<p>While it will be important to focus on theory, I want to explain the ggplot2 package because I will be using it throughout the rest of this series. Knowing how it works will keep the focus on the results rather than the code. It&#39;s an incredibly powerful package and once you wrap your head around what it&#39;s doing, your life will change for the better! There are a lot of tools out there which provide better charts, graphs and ease of use (i.e. plot.ly, d3.js, Qlik, Tableau), but ggplot2 is still a fantastic resource and I use it all of the time. </p>
+
+<p>In case you missed it, here&#39;s a link to <a href="https://www.stoltzmaniac.com/data-visualization-part-1/">Data Visualization - Part 1</a></p>
+
+<p><img src="http://i.imgur.com/6jd2ido.png" title="plot of chunk unnamed-chunk-1" alt="plot of chunk unnamed-chunk-1" style="display: block; margin: auto;" /></p>
+
+<h3>Why should you use ggplot2?</h3>
+
+<ol>
+<li>More robust plotting than the base plot package</li>
+<li>Better control over aesthetics - colors, axes, background, etc.</li>
+<li>Layering</li>
+<li>Variable Mapping (aes)</li>
+<li>Automatic aggregation of data</li>
+<li>Built in formulas &amp; plotting (geom_smooth)</li>
+<li>The list goes on and on&hellip;<br/></li>
+</ol>
+
+<p>Basically, ggplot2 allows for a lot more customization of plots with a lot less code (the rest of it is behind the scenes). Once you are used to the syntax, there&#39;s no going back. It&#39;s faster and easier.</p>
+
+<h3>Why wouldn&#39;t you use ggplot2?</h3>
+
+<ol>
+<li>A bit of a learning curve</li>
+<li>Lack of user interactivity with the plots<br/></li>
+</ol>
+
+<p>Fundamentally, ggplot2 gives the user the ability to start a plot and layer everything in. There are many ways to accomplish the same thing, so figure out what makes sense for you and stick to it.  </p>
+
+<p><strong>A Basic Example: Unemployment Over Time</strong>  </p>
+
+<pre><code class="r">library(dplyr)
+library(ggplot2)
+
+# Load the economics data from ggplot2
+data(economics,package=&#39;ggplot2&#39;)
+</code></pre>
+
+<pre><code class="r"># Take a look at the format of the data
+head(economics)
+</code></pre>
+
+<pre><code>## # A tibble: 6 × 6
+##         date   pce    pop psavert uempmed unemploy
+##       &lt;date&gt; &lt;dbl&gt;  &lt;int&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;int&gt;
+## 1 1967-07-01 507.4 198712    12.5     4.5     2944
+## 2 1967-08-01 510.5 198911    12.5     4.7     2945
+## 3 1967-09-01 516.3 199113    11.7     4.6     2958
+## 4 1967-10-01 512.9 199311    12.5     4.9     3143
+## 5 1967-11-01 518.1 199498    12.5     4.7     3066
+## 6 1967-12-01 525.8 199657    12.1     4.8     3018
+</code></pre>
+
+<pre><code class="r"># Create the plot
+ggplot(data = economics) + geom_line(aes(x = date, y = unemploy))
+</code></pre>
+
+<p><img src="http://i.imgur.com/KxjoOj5.png" alt="plot of chunk unnamed-chunk-4"/></p>
+
+<h3>What happened to get that?</h3>
+
+<ul>
+<li><code>ggplot(economics)</code> loaded the data frame</li>
+<li><code>+</code> tells ggplot() that there is more to be added to the plot</li>
+<li><code>geom_line()</code> defined the type of plot</li>
+<li><code>aes(x = date, y = unemploy)</code> mapped the variables</li>
+</ul>
+
+<p>The <code>aes()</code> portion is what typically throws new users off but is my favorite feature of ggplot2. In simple terms, this is what &ldquo;auto-magically&rdquo; brings your plot to life. You are telling ggplot2, &ldquo;I want &#39;date&#39; to be on the x-axis and &#39;unemploy&#39; to be on the y-axis.&rdquo; It&#39;s pretty straightforward in this case but there are more complex use cases as well.</p>
+
+<p><strong><em>Side Note:</em></strong> you could have achieved the same result by mapping the variables in the ggplot() function rather than in geom_line():
+<code>ggplot(data = economics, aes(x = date, y = unemploy)) + geom_line()</code></p>
+
+<h3>Here&#39;s the basic formula for success:</h3>
+
+<ul>
+<li>Everything in ggplot2 starts with <code>ggplot(data)</code> and utilizes <code>+</code> to add on every element thereafter</li>
+<li>Include your data frame (economics) in a ggplot function: <code>ggplot(data = economics)</code><br/></li>
+<li>Input the type of plot you would like (i.e. line chart of unemployment over time): <code>+ geom_line(aes(x = date, y = unemploy))</code>
+
+<ul>
+<li>&ldquo;geom&rdquo; stands for &ldquo;geometric object&rdquo; and determines the type of object (there can be more than one type per plot)</li>
+<li>There are <strong><em>a lot</em></strong> of types of geometric objects - check them out <a href="http://docs.ggplot2.org/current/">here</a></li>
+</ul></li>
+<li>Add in layers and utilize <code>fill</code> and <code>col</code> parameters within <code>aes()</code></li>
+</ul>
+
+<p>I&#39;ll go through some of the examples from the <a href="http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html">Top 50 ggplot2 Visualizations Master List</a>. I will be using their examples but I will also explain what&#39;s going on.  </p>
+
+<p><strong>Note:</strong> I believe the intention of the author of the <a href="http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html">Top 50 ggplot2 Visualizations Master List</a> was to illustrate how to use ggplot2 rather than doing a full demonstration of what important data visualization techniques are - so keep that in mind as I go through these examples. Some of the visuals do not line up with my best practices addressed in my <a href="https://www.stoltzmaniac.com/data-visualization-part-1/">first post on data visualization</a>.</p>
+
+<p>As usual, some packages must be loaded.  </p>
+
+<pre><code class="r">library(reshape2)
+library(lubridate)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(scales)
+library(gridExtra)
+</code></pre>
+
+<h3>The Scatterplot</h3>
+
+<p>This is one of the most visually powerful tool for data analysis. However, you have to be careful when using it because it&#39;s primarily used by people doing analysis and not reporting (depending on what industry you&#39;re in).</p>
+
+<p>The author of this chart was looking for a correlation between area and population. </p>
+
+<pre><code class="r"># Use the &quot;midwest&quot;&quot; data from ggplot2
+data(&quot;midwest&quot;, package = &quot;ggplot2&quot;)
+
+head(midwest)
+</code></pre>
+
+<pre><code>## # A tibble: 6 × 28
+##     PID    county state  area poptotal popdensity popwhite popblack
+##   &lt;int&gt;     &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;    &lt;int&gt;      &lt;dbl&gt;    &lt;int&gt;    &lt;int&gt;
+## 1   561     ADAMS    IL 0.052    66090  1270.9615    63917     1702
+## 2   562 ALEXANDER    IL 0.014    10626   759.0000     7054     3496
+## 3   563      BOND    IL 0.022    14991   681.4091    14477      429
+## 4   564     BOONE    IL 0.017    30806  1812.1176    29344      127
+## 5   565     BROWN    IL 0.018     5836   324.2222     5264      547
+## 6   566    BUREAU    IL 0.050    35688   713.7600    35157       50
+## # ... with 20 more variables: popamerindian &lt;int&gt;, popasian &lt;int&gt;,
+## #   popother &lt;int&gt;, percwhite &lt;dbl&gt;, percblack &lt;dbl&gt;, percamerindan &lt;dbl&gt;,
+## #   percasian &lt;dbl&gt;, percother &lt;dbl&gt;, popadults &lt;int&gt;, perchsd &lt;dbl&gt;,
+## #   percollege &lt;dbl&gt;, percprof &lt;dbl&gt;, poppovertyknown &lt;int&gt;,
+## #   percpovertyknown &lt;dbl&gt;, percbelowpoverty &lt;dbl&gt;,
+## #   percchildbelowpovert &lt;dbl&gt;, percadultpoverty &lt;dbl&gt;,
+## #   percelderlypoverty &lt;dbl&gt;, inmetro &lt;int&gt;, category &lt;chr&gt;
+</code></pre>
+
+<h4>Here&#39;s the most basic version of the scatter plot</h4>
+
+<p>This can be called by <code>geom_point()</code> in ggplot2</p>
+
+<pre><code class="r"># Scatterplot
+ggplot(data = midwest, aes(x = area, y = poptotal)) + geom_point()  #ggplot
+</code></pre>
+
+<p><img src="http://i.imgur.com/2M5Y67R.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" style="display: block; margin: auto;" /></p>
+
+<h4>Here&#39;s  version with some additional features</h4>
+
+<p>While the addition of the size of the points and color don&#39;t add value, it does show the level of customization that&#39;s possible with ggplot2.</p>
+
+<pre><code class="r">ggplot(data = midwest, aes(x = area, y = poptotal)) + 
+geom_point(aes(col=state, size=popdensity)) + 
+  geom_smooth(method=&quot;loess&quot;, se=F) + 
+  xlim(c(0, 0.1)) + 
+  ylim(c(0, 500000)) + 
+  labs(subtitle=&quot;Area Vs Population&quot;, 
+       y=&quot;Population&quot;, 
+       x=&quot;Area&quot;, 
+       title=&quot;Scatterplot&quot;, 
+       caption = &quot;Source: midwest&quot;)
+</code></pre>
+
+<p><img src="http://i.imgur.com/zfU5G27.png" alt="plot of chunk unnamed-chunk-8"/></p>
+
+<h4>Explanation:</h4>
+
+<p><code>ggplot(data = midwest, aes(x = area, y = poptotal)) +</code><br/>
+Inputs the data and maps x and y variables as area and poptotal.  </p>
+
+<p><code>geom_point(aes(col=state, size=popdensity)) +</code><br/>
+Creates a scatterplot and maps the color and size of points to state and popdensity.  </p>
+
+<p><code>geom_smooth(method=&quot;loess&quot;, se=F) +</code><br/>
+Creates a smoothing curve to fit the data. <code>method</code> is the type of fit and <code>se</code> determines whether or not to show error bars.</p>
+
+<p><code>xlim(c(0, 0.1)) +</code><br/>
+Sets the x-axis limits.  </p>
+
+<p><code>ylim(c(0, 500000)) +</code><br/>
+Sets the y-axis limits.  </p>
+
+<p><code>labs(subtitle=&quot;Area Vs Population&quot;,</code>  </p>
+
+<p><code>y=&quot;Population&quot;,</code>  </p>
+
+<p><code>x=&quot;Area&quot;,</code>  </p>
+
+<p><code>title=&quot;Scatterplot&quot;,</code>  </p>
+
+<p><code>caption = &quot;Source: midwest&quot;)</code><br/>
+Changes the labels of the subtitle, y-axis, x-axis, title and caption.</p>
+
+<p>Notice that the legend was automatically created and placed on the lefthand side. This is also highly customizable and can be changed easily.</p>
+
+<h3>The Density Plot</h3>
+
+<p>Density plots are a great way to see how data is distributed. They are similar to histograms in a sense, but show values in terms of percentage of the total. In this example, the author used the mpg data set and is looking to see the different distributions of City Mileage based off of the number of cylinders the car has.</p>
+
+<pre><code class="r"># Examine the mpg data set
+head(mpg)
+</code></pre>
+
+<pre><code>## # A tibble: 6 × 11
+##   manufacturer model displ  year   cyl      trans   drv   cty   hwy    fl
+##          &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt;      &lt;chr&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;
+## 1         audi    a4   1.8  1999     4   auto(l5)     f    18    29     p
+## 2         audi    a4   1.8  1999     4 manual(m5)     f    21    29     p
+## 3         audi    a4   2.0  2008     4 manual(m6)     f    20    31     p
+## 4         audi    a4   2.0  2008     4   auto(av)     f    21    30     p
+## 5         audi    a4   2.8  1999     6   auto(l5)     f    16    26     p
+## 6         audi    a4   2.8  1999     6 manual(m5)     f    18    26     p
+## # ... with 1 more variables: class &lt;chr&gt;
+</code></pre>
+
+<h4>Sample Density Plot</h4>
+
+<pre><code class="r">g = ggplot(mpg, aes(cty))
+g + geom_density(aes(fill=factor(cyl)), alpha=0.8) + 
+    labs(title=&quot;Density plot&quot;, 
+         subtitle=&quot;City Mileage Grouped by Number of cylinders&quot;,
+         caption=&quot;Source: mpg&quot;,
+         x=&quot;City Mileage&quot;,
+         fill=&quot;# Cylinders&quot;)
+</code></pre>
+
+<p><img src="http://i.imgur.com/5rIT348.png" alt="plot of chunk unnamed-chunk-10"/></p>
+
+<p>You&#39;ll notice one immediate difference here. The author decided to use the variable <code>g</code> to equal <code>ggplot(mpg, aes(cty))</code> - this is a nice trick and will save you some time if you plan on keeping <code>ggplot(mpg, aes(cty))</code> as the fundamental plot and simply exploring other visualizations on top of it. It is also handy if you need to save the output of a chart to an image file.</p>
+
+<p><code>ggplot(mpg, aes(cty))</code> loads the mpg data and <code>aes(cty)</code> assumes <code>aes(x = cty)</code>  </p>
+
+<p><code>g + geom_density(aes(fill=factor(cyl)), alpha=0.8) +</code><br/>
+<code>geom_density</code> kicks off a density plot and the mapping of <code>cyl</code> is used for colors. <code>alpha</code> is the transparency/opacity of the area under the curve.</p>
+
+<p><code>labs(title=&quot;Density plot&quot;,</code>  </p>
+
+<p><code>subtitle=&quot;City Mileage Grouped by Number of cylinders&quot;,</code>  </p>
+
+<p><code>caption=&quot;Source: mpg&quot;,</code>  </p>
+
+<p><code>x=&quot;City Mileage&quot;,</code>  </p>
+
+<p><code>fill=&quot;# Cylinders&quot;)</code><br/>
+Labeling is cleaned up at the end.</p>
+
+<h4>How would you use your new knowledge to see the density by class instead of by # of cylinders?</h4>
+
+<p><em>**Hint: *</em>* <code>g = ggplot(mpg, aes(cty))</code> has already been established.</p>
+
+<pre><code class="r">g + geom_density(aes(fill=factor(class)), alpha=0.8) + 
+    labs(title=&quot;Density plot&quot;, 
+         subtitle=&quot;City Mileage Grouped by Class&quot;,
+         caption=&quot;Source: mpg&quot;,
+         x=&quot;City Mileage&quot;,
+         fill=&quot;Class&quot;)
+</code></pre>
+
+<p><img src="http://i.imgur.com/YflU5fn.png" alt="plot of chunk unnamed-chunk-11"/>
+Notice how I didn&#39;t have to write out <code>ggplot()</code> again because it was already stored in the variable <code>g</code>.</p>
+
+<h3>The Histogram</h3>
+
+<p>How could we show the city mileage in a histogram?</p>
+
+<pre><code class="r">g = ggplot(mpg,aes(cty))
+g + geom_histogram(bins=20) +
+    labs(title=&quot;Histogram&quot;, 
+         caption=&quot;Source: mpg&quot;,
+         x=&quot;City Mileage&quot;)
+</code></pre>
+
+<p><img src="http://i.imgur.com/YhVg0Ei.png" alt="plot of chunk unnamed-chunk-12"/></p>
+
+<p><code>geom_histogram(bins=20)</code> plots the histogram. If <code>bins</code> isn&#39;t set, ggplot2 will automatically set one.</p>
+
+<h3>The Bar/Column Chart</h3>
+
+<p>For all intensive purposes, bar and column charts are essentially the same. Technically, the term &ldquo;column chart&rdquo; can be used when the bars run vertically. The author of this chart was simply looking at the frequency of the vehicles listed in the data set.</p>
+
+<pre><code class="r">#Data Preparation
+freqtable &lt;- table(mpg$manufacturer)
+df &lt;- as.data.frame.table(freqtable)
+head(df)
+</code></pre>
+
+<pre><code>##        Var1 Freq
+## 1      audi   18
+## 2 chevrolet   19
+## 3     dodge   37
+## 4      ford   25
+## 5     honda    9
+## 6   hyundai   14
+</code></pre>
+
+<pre><code class="r">#Set a theme
+theme_set(theme_classic())
+
+g &lt;- ggplot(df, aes(Var1, Freq))
+g + geom_bar(stat=&quot;identity&quot;, width = 0.5, fill=&quot;tomato2&quot;) + 
+      labs(title=&quot;Bar Chart&quot;, 
+           subtitle=&quot;Manufacturer of vehicles&quot;, 
+           caption=&quot;Source: Frequency of Manufacturers from &#39;mpg&#39; dataset&quot;) +
+      theme(axis.text.x = element_text(angle=65, vjust=0.6))
+</code></pre>
+
+<p><img src="http://i.imgur.com/DGSKlVw.png" alt="plot of chunk unnamed-chunk-14"/></p>
+
+<p>The addition of <code>theme_set(theme_classic())</code> adds a preset theme to the chart. You can create your own or select from a large list of themes. This can help set your work apart from others and save a lot of time.</p>
+
+<p>However, theme_set() is different than the <code>theme(axis.text.x = element_text(angle=65, vjust=0.6))</code> the one used inside the plot itself in this case. The author decided to tilt the text along the x-axis. <code>vjust=0.6</code> changes how far it is spaced away from the axis line.</p>
+
+<p>Within <code>geom_bar()</code> there is another new piece of information: <code>stat=&quot;identity&quot;</code> which tells ggplot to use the actual value of <code>Freq</code>.</p>
+
+<p>You may also notice that ggplot arranged all of the data in alphabetical order based off of the manufacturer. If you want to change the order, it&#39;s best to use the <code>reorder()</code> function. This next chart will use the <code>Freq</code> and <code>coord_flip()</code> to orient the chart differently. </p>
+
+<pre><code class="r">g &lt;- ggplot(df, aes(reorder(Var1,Freq), Freq))
+g + geom_bar(stat=&quot;identity&quot;, width = 0.5, fill=&quot;tomato2&quot;) + 
+      labs(title=&quot;Bar Chart&quot;, 
+           x = &#39;Manufacturer&#39;,
+           subtitle=&quot;Manufacturer of vehicles&quot;, 
+           caption=&quot;Source: Frequency of Manufacturers from &#39;mpg&#39; dataset&quot;) +
+      theme(axis.text.x = element_text(angle=65, vjust=0.6)) + 
+  coord_flip()
+</code></pre>
+
+<p><img src="http://i.imgur.com/KQ10BQd.png" alt="plot of chunk unnamed-chunk-15"/></p>
+
+<p>Let&#39;s continue with bar charts - what if we wanted to see what <code>hwy</code> looked like by <code>manufacturer</code> and in terms of <code>cyl</code>?</p>
+
+<pre><code class="r">g = ggplot(mpg,aes(x=manufacturer,y=hwy,col=factor(cyl),fill=factor(cyl)))
+g + geom_bar(stat=&#39;identity&#39;, position=&#39;dodge&#39;) + 
+  theme(axis.text.x = element_text(angle=65, vjust=0.6))
+</code></pre>
+
+<p><img src="http://i.imgur.com/4Ax9iqh.png" alt="plot of chunk unnamed-chunk-16"/></p>
+
+<p><code>position=&#39;dodge&#39;</code> had to be used because the default setting is to stack the bars, <code>&#39;dodge&#39;</code> places them side by side for comparison.  </p>
+
+<p>Despite the fact that the chart did what I wanted, it is very difficult to read due to how many manufacturers there are. This is where the <code>facet_wrap()</code> feature comes in handy.</p>
+
+<pre><code class="r">theme_set(theme_bw())
+
+g = ggplot(mpg,aes(x=factor(cyl),y=hwy,col=factor(cyl),fill=factor(cyl)))
+g + geom_bar(stat=&#39;identity&#39;, position=&#39;dodge&#39;) + 
+  facet_wrap(~manufacturer)
+</code></pre>
+
+<p><img src="http://i.imgur.com/9GLeW3A.png" alt="plot of chunk unnamed-chunk-17"/>
+This created a much nicer view of the information. It &ldquo;auto-magically&rdquo; split everything out by manufacturer!</p>
+
+<h3>Spatial Plots</h3>
+
+<p>Another nice feature of ggplot2 is the integration with maps and spatial plotting. In this simple example, I wanted to plot a few cities in Colorado and draw a border around them. Notice that other than the addition of the map ggplot simply places the dots directly on the locations via their longitude and latitude &ldquo;auto-magically.&rdquo;</p>
+
+<p>This map is created with <code>ggmap</code> which utilizes Google Maps API.</p>
+
+<pre><code class="r">library(ggmap)
+library(ggalt)
+
+foco &lt;-  geocode(&quot;Fort Collins, CO&quot;)  # get longitude and latitude
+
+# Get the Map ----------------------------------------------
+colo_map &lt;- qmap(&quot;Colorado, United States&quot;,zoom = 7, source = &quot;google&quot;)   
+
+# Get Coordinates for Places ---------------------
+colo_places &lt;- c(&quot;Fort Collins, CO&quot;,
+                    &quot;Denver, CO&quot;,
+                    &quot;Grand Junction, CO&quot;,
+                    &quot;Durango, CO&quot;,
+                    &quot;Pueblo, CO&quot;)
+
+places_loc &lt;- geocode(colo_places)  # get longitudes and latitudes
+
+
+# Plot Open Street Map -------------------------------------
+colo_map + geom_point(aes(x=lon, y=lat),
+                             data = places_loc, 
+                             alpha = 0.7, 
+                             size = 7, 
+                             color = &quot;tomato&quot;) + 
+                  geom_encircle(aes(x=lon, y=lat),
+                                data = places_loc, size = 2, color = &quot;blue&quot;)
+</code></pre>
+
+<p><img src="http://i.imgur.com/p8Lal1n.png" alt="plot of chunk unnamed-chunk-18"/></p>
+
+<h3>Final Thoughts</h3>
+
+<p>I hope you learned a lot about the basics of ggplot2 in this. It&#39;s extremely powerful but yet easy to use once you get the hang of it. The best way to really learn it is to try it out. Find some data on your own and try to manipulate it and get it plotted. Without a doubt, you will have all kinds of errors pop up, data you expect to be plotted won&#39;t show up, colors and fills will be different, etc. However, your visualizations will be leveled-up!</p>
+
+<h3>Coming soon:</h3>
+
+<ul>
+<li>Determining whether or not you need a visualization<br/></li>
+<li>Choosing the type of plot to use depending on the use case<br/></li>
+<li>Visualization beyond the standard charts and graphs<br/></li>
+</ul>
+
+<p>I made some modifications to the code, but almost all of the examples here were from <a href="http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html">Top 50 ggplot2 Visualizations - The Master List </a>. </p>
+
+<p>As always, the code used in this post is on my <a href="https://github.com/stoltzmaniac/Data-Visualization-Lesson">GitHub</a></p>
+

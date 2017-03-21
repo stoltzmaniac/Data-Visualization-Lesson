@@ -1,9 +1,11 @@
 ---
 title: "Data Visualization - Part 1"
-subtitle: "The Good, The Bad and The Ugly"
 author: "Scott Stoltzman"
 date: "March 14, 2017"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
+subtitle: The Good, The Bad and The Ugly
 ---
 
 ```{r setup, results='hide', warning=FALSE, message=FALSE,echo=FALSE}
