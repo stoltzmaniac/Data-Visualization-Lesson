@@ -1,25 +1,26 @@
 ---
 title: "Data Visualization - Part 2"
-subtitle: "The Good, The Bad and The Ugly"
 author: "Scott Stoltzman"
 date: "March 14, 2017"
-output: html_document
+output:
+  html_document: default
+subtitle: The Good, The Bad and The Ugly
 ---
 
 ----  
 
 # Data Visualization - Part 2
 
-##A Quick Overview of the ggplot2 Package in R  
+## A Quick Overview of the ggplot2 Package in R  
 
 While it will be important to focus on theory, I want to explain the ggplot2 package because I will be using it throughout the rest of this series. Knowing how it works will keep the focus on the results rather than the code. It's an incredibly powerful package and once you wrap your head around what it's doing, your life will change for the better! There are a lot of tools out there which provide better charts, graphs and ease of use (i.e. plot.ly, d3.js, Qlik, Tableau), but ggplot2 is still a fantastic resource and I use it all of the time. 
 
 In case you missed it, here's a link to [Data Visualization - Part 1](https://www.stoltzmaniac.com/data-visualization-part-1/)
 
-<img src="http://i.imgur.com/6jd2ido.png" title="plot of chunk unnamed-chunk-1" alt="plot of chunk unnamed-chunk-1" style="display: block; margin: auto;" />
+<img src="http://i.imgur.com/4MX4rii.png" title="plot of chunk unnamed-chunk-1" alt="plot of chunk unnamed-chunk-1" style="display: block; margin: auto;" />
 
 
-### Why should you use ggplot2?  
+### Why would you use ggplot2?  
 1. More robust plotting than the base plot package
 2. Better control over aesthetics - colors, axes, background, etc.
 3. Layering
@@ -72,7 +73,7 @@ head(economics)
 ggplot(data = economics) + geom_line(aes(x = date, y = unemploy))
 ```
 
-![plot of chunk unnamed-chunk-4](http://i.imgur.com/KxjoOj5.png)
+![plot of chunk unnamed-chunk-4](http://i.imgur.com/BXzLJQ8.png)
 
 
 
@@ -159,7 +160,7 @@ This can be called by `geom_point()` in ggplot2
 ggplot(data = midwest, aes(x = area, y = poptotal)) + geom_point()  #ggplot
 ```
 
-<img src="http://i.imgur.com/2M5Y67R.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" style="display: block; margin: auto;" />
+<img src="http://i.imgur.com/TaneATX.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" style="display: block; margin: auto;" />
 
 #### Here's  version with some additional features  
 
@@ -179,7 +180,7 @@ geom_point(aes(col=state, size=popdensity)) +
        caption = "Source: midwest")
 ```
 
-![plot of chunk unnamed-chunk-8](http://i.imgur.com/zfU5G27.png)
+![plot of chunk unnamed-chunk-8](http://i.imgur.com/JACxp6k.png)
 
 #### Explanation:  
 
@@ -248,9 +249,9 @@ g + geom_density(aes(fill=factor(cyl)), alpha=0.8) +
          fill="# Cylinders")
 ```
 
-![plot of chunk unnamed-chunk-10](http://i.imgur.com/5rIT348.png)
+![plot of chunk unnamed-chunk-10](http://i.imgur.com/k2injTT.png)
 
-You'll notice one immediate difference here. The author decided to use the variable `g` to equal `ggplot(mpg, aes(cty))` - this is a nice trick and will save you some time if you plan on keeping `ggplot(mpg, aes(cty))` as the fundamental plot and simply exploring other visualizations on top of it. It is also handy if you need to save the output of a chart to an image file.
+You'll notice one immediate difference here. The author decided to create a the object `g` to equal `ggplot(mpg, aes(cty))` - this is a nice trick and will save you some time if you plan on keeping `ggplot(mpg, aes(cty))` as the fundamental plot and simply exploring other visualizations on top of it. It is also handy if you need to save the output of a chart to an image file.
 
 `ggplot(mpg, aes(cty))` loads the mpg data and `aes(cty)` assumes `aes(x = cty)`  
 
@@ -269,7 +270,7 @@ You'll notice one immediate difference here. The author decided to use the varia
 Labeling is cleaned up at the end.
 
 
-#### How would you use your new knowledge to see the density by class instead of by # of cylinders?  
+#### How would you use your new knowledge to see the density by class instead of by number of cylinders?  
 
 ***Hint: *** `g = ggplot(mpg, aes(cty))` has already been established.
 
@@ -283,8 +284,8 @@ g + geom_density(aes(fill=factor(class)), alpha=0.8) +
          fill="Class")
 ```
 
-![plot of chunk unnamed-chunk-11](http://i.imgur.com/YflU5fn.png)
-Notice how I didn't have to write out `ggplot()` again because it was already stored in the variable `g`.
+![plot of chunk unnamed-chunk-11](http://i.imgur.com/Kq7TY54.png)
+Notice how I didn't have to write out `ggplot()` again because it was already stored in the object `g`.
 
 ### The Histogram  
 
@@ -299,7 +300,7 @@ g + geom_histogram(bins=20) +
          x="City Mileage")
 ```
 
-![plot of chunk unnamed-chunk-12](http://i.imgur.com/YhVg0Ei.png)
+![plot of chunk unnamed-chunk-12](http://i.imgur.com/rZVtc1G.png)
 
 `geom_histogram(bins=20)` plots the histogram. If `bins` isn't set, ggplot2 will automatically set one.
 
@@ -340,7 +341,7 @@ g + geom_bar(stat="identity", width = 0.5, fill="tomato2") +
       theme(axis.text.x = element_text(angle=65, vjust=0.6))
 ```
 
-![plot of chunk unnamed-chunk-14](http://i.imgur.com/DGSKlVw.png)
+![plot of chunk unnamed-chunk-14](http://i.imgur.com/OtF2saP.png)
 
 The addition of `theme_set(theme_classic())` adds a preset theme to the chart. You can create your own or select from a large list of themes. This can help set your work apart from others and save a lot of time.
 
@@ -362,7 +363,7 @@ g + geom_bar(stat="identity", width = 0.5, fill="tomato2") +
   coord_flip()
 ```
 
-![plot of chunk unnamed-chunk-15](http://i.imgur.com/KQ10BQd.png)
+![plot of chunk unnamed-chunk-15](http://i.imgur.com/lQkbQjO.png)
 
 Let's continue with bar charts - what if we wanted to see what `hwy` looked like by `manufacturer` and in terms of `cyl`?
 
@@ -373,7 +374,7 @@ g + geom_bar(stat='identity', position='dodge') +
   theme(axis.text.x = element_text(angle=65, vjust=0.6))
 ```
 
-![plot of chunk unnamed-chunk-16](http://i.imgur.com/4Ax9iqh.png)
+![plot of chunk unnamed-chunk-16](http://i.imgur.com/eLaSXr7.png)
 
 `position='dodge'` had to be used because the default setting is to stack the bars, `'dodge'` places them side by side for comparison.  
 
@@ -388,13 +389,13 @@ g + geom_bar(stat='identity', position='dodge') +
   facet_wrap(~manufacturer)
 ```
 
-![plot of chunk unnamed-chunk-17](http://i.imgur.com/9GLeW3A.png)
+![plot of chunk unnamed-chunk-17](http://i.imgur.com/wpsQt81.png)
 This created a much nicer view of the information. It "auto-magically" split everything out by manufacturer!
 
 
 ### Spatial Plots
 
-Another nice feature of ggplot2 is the integration with maps and spatial plotting. In this simple example, I wanted to plot a few cities in Colorado and draw a border around them. Notice that other than the addition of the map ggplot simply places the dots directly on the locations via their longitude and latitude "auto-magically."
+Another nice feature of ggplot2 is the integration with maps and spatial plotting. In this simple example, I wanted to plot a few cities in Colorado and draw a border around them. Other than the addition of the map, ggplot simply places the dots directly on the locations via their longitude and latitude "auto-magically."
 
 This map is created with `ggmap` which utilizes Google Maps API.
 
@@ -428,7 +429,7 @@ colo_map + geom_point(aes(x=lon, y=lat),
                                 data = places_loc, size = 2, color = "blue")
 ```
 
-![plot of chunk unnamed-chunk-18](http://i.imgur.com/p8Lal1n.png)
+![plot of chunk unnamed-chunk-18](http://i.imgur.com/rmhVRiD.png)
 
 ### Final Thoughts  
 

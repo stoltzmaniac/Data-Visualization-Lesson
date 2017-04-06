@@ -1,8 +1,7 @@
 ---
-title: "Data Visualization - Part 1"
-subtitle: "The Good, The Bad and The Ugly"
+title: "Data Visualization - Part 3"
 author: "Scott Stoltzman"
-date: "March 14, 2017"
+date: "March 28, 2017"
 output: html_document
 ---
 
@@ -10,18 +9,15 @@ output: html_document
 library(png)
 library(grid)
 ```
-----  
 
-# A Lesson on Data Visualization - Choosing the Type  
+### Do You Actually Need a Visualization?
 
 ```{r, fig.align='center',echo=FALSE}
-img = readPNG("images/title_photo.png")
+img = readPNG("images/title_photo_3.png")
 grid.raster(img)
 ```
 
-### Know what you are trying to achieve before starting
-
-
+#### Know what you are trying to achieve before starting
 
 Let's load up some libraries and get started.
 

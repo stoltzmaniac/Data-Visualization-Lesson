@@ -2,15 +2,15 @@
 
 <h1>Data Visualization - Part 2</h1>
 
-<p>##A Quick Overview of the ggplot2 Package in R  </p>
+<h2>A Quick Overview of the ggplot2 Package in R</h2>
 
 <p>While it will be important to focus on theory, I want to explain the ggplot2 package because I will be using it throughout the rest of this series. Knowing how it works will keep the focus on the results rather than the code. It&#39;s an incredibly powerful package and once you wrap your head around what it&#39;s doing, your life will change for the better! There are a lot of tools out there which provide better charts, graphs and ease of use (i.e. plot.ly, d3.js, Qlik, Tableau), but ggplot2 is still a fantastic resource and I use it all of the time. </p>
 
 <p>In case you missed it, here&#39;s a link to <a href="https://www.stoltzmaniac.com/data-visualization-part-1/">Data Visualization - Part 1</a></p>
 
-<p><img src="http://i.imgur.com/6jd2ido.png" title="plot of chunk unnamed-chunk-1" alt="plot of chunk unnamed-chunk-1" style="display: block; margin: auto;" /></p>
+<p><img src="http://i.imgur.com/4MX4rii.png" title="plot of chunk unnamed-chunk-1" alt="plot of chunk unnamed-chunk-1" style="display: block; margin: auto;" /></p>
 
-<h3>Why should you use ggplot2?</h3>
+<h3>Why would you use ggplot2?</h3>
 
 <ol>
 <li>More robust plotting than the base plot package</li>
@@ -61,7 +61,7 @@ head(economics)
 ggplot(data = economics) + geom_line(aes(x = date, y = unemploy))
 </code></pre>
 
-<p><img src="http://i.imgur.com/KxjoOj5.png" alt="plot of chunk unnamed-chunk-4"/></p>
+<p><img src="http://i.imgur.com/BXzLJQ8.png" alt="plot of chunk unnamed-chunk-4"/></p>
 
 <h3>What happened to get that?</h3>
 
@@ -144,7 +144,7 @@ head(midwest)
 ggplot(data = midwest, aes(x = area, y = poptotal)) + geom_point()  #ggplot
 </code></pre>
 
-<p><img src="http://i.imgur.com/2M5Y67R.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" style="display: block; margin: auto;" /></p>
+<p><img src="http://i.imgur.com/TaneATX.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" style="display: block; margin: auto;" /></p>
 
 <h4>Here&#39;s  version with some additional features</h4>
 
@@ -162,7 +162,7 @@ geom_point(aes(col=state, size=popdensity)) +
        caption = &quot;Source: midwest&quot;)
 </code></pre>
 
-<p><img src="http://i.imgur.com/zfU5G27.png" alt="plot of chunk unnamed-chunk-8"/></p>
+<p><img src="http://i.imgur.com/JACxp6k.png" alt="plot of chunk unnamed-chunk-8"/></p>
 
 <h4>Explanation:</h4>
 
@@ -225,9 +225,9 @@ g + geom_density(aes(fill=factor(cyl)), alpha=0.8) +
          fill=&quot;# Cylinders&quot;)
 </code></pre>
 
-<p><img src="http://i.imgur.com/5rIT348.png" alt="plot of chunk unnamed-chunk-10"/></p>
+<p><img src="http://i.imgur.com/k2injTT.png" alt="plot of chunk unnamed-chunk-10"/></p>
 
-<p>You&#39;ll notice one immediate difference here. The author decided to use the variable <code>g</code> to equal <code>ggplot(mpg, aes(cty))</code> - this is a nice trick and will save you some time if you plan on keeping <code>ggplot(mpg, aes(cty))</code> as the fundamental plot and simply exploring other visualizations on top of it. It is also handy if you need to save the output of a chart to an image file.</p>
+<p>You&#39;ll notice one immediate difference here. The author decided to create a the object <code>g</code> to equal <code>ggplot(mpg, aes(cty))</code> - this is a nice trick and will save you some time if you plan on keeping <code>ggplot(mpg, aes(cty))</code> as the fundamental plot and simply exploring other visualizations on top of it. It is also handy if you need to save the output of a chart to an image file.</p>
 
 <p><code>ggplot(mpg, aes(cty))</code> loads the mpg data and <code>aes(cty)</code> assumes <code>aes(x = cty)</code>  </p>
 
@@ -245,7 +245,7 @@ g + geom_density(aes(fill=factor(cyl)), alpha=0.8) +
 <p><code>fill=&quot;# Cylinders&quot;)</code><br/>
 Labeling is cleaned up at the end.</p>
 
-<h4>How would you use your new knowledge to see the density by class instead of by # of cylinders?</h4>
+<h4>How would you use your new knowledge to see the density by class instead of by number of cylinders?</h4>
 
 <p><em>**Hint: *</em>* <code>g = ggplot(mpg, aes(cty))</code> has already been established.</p>
 
@@ -257,8 +257,8 @@ Labeling is cleaned up at the end.</p>
          fill=&quot;Class&quot;)
 </code></pre>
 
-<p><img src="http://i.imgur.com/YflU5fn.png" alt="plot of chunk unnamed-chunk-11"/>
-Notice how I didn&#39;t have to write out <code>ggplot()</code> again because it was already stored in the variable <code>g</code>.</p>
+<p><img src="http://i.imgur.com/Kq7TY54.png" alt="plot of chunk unnamed-chunk-11"/>
+Notice how I didn&#39;t have to write out <code>ggplot()</code> again because it was already stored in the object <code>g</code>.</p>
 
 <h3>The Histogram</h3>
 
@@ -271,7 +271,7 @@ g + geom_histogram(bins=20) +
          x=&quot;City Mileage&quot;)
 </code></pre>
 
-<p><img src="http://i.imgur.com/YhVg0Ei.png" alt="plot of chunk unnamed-chunk-12"/></p>
+<p><img src="http://i.imgur.com/rZVtc1G.png" alt="plot of chunk unnamed-chunk-12"/></p>
 
 <p><code>geom_histogram(bins=20)</code> plots the histogram. If <code>bins</code> isn&#39;t set, ggplot2 will automatically set one.</p>
 
@@ -305,7 +305,7 @@ g + geom_bar(stat=&quot;identity&quot;, width = 0.5, fill=&quot;tomato2&quot;) +
       theme(axis.text.x = element_text(angle=65, vjust=0.6))
 </code></pre>
 
-<p><img src="http://i.imgur.com/DGSKlVw.png" alt="plot of chunk unnamed-chunk-14"/></p>
+<p><img src="http://i.imgur.com/OtF2saP.png" alt="plot of chunk unnamed-chunk-14"/></p>
 
 <p>The addition of <code>theme_set(theme_classic())</code> adds a preset theme to the chart. You can create your own or select from a large list of themes. This can help set your work apart from others and save a lot of time.</p>
 
@@ -325,7 +325,7 @@ g + geom_bar(stat=&quot;identity&quot;, width = 0.5, fill=&quot;tomato2&quot;) +
   coord_flip()
 </code></pre>
 
-<p><img src="http://i.imgur.com/KQ10BQd.png" alt="plot of chunk unnamed-chunk-15"/></p>
+<p><img src="http://i.imgur.com/lQkbQjO.png" alt="plot of chunk unnamed-chunk-15"/></p>
 
 <p>Let&#39;s continue with bar charts - what if we wanted to see what <code>hwy</code> looked like by <code>manufacturer</code> and in terms of <code>cyl</code>?</p>
 
@@ -334,7 +334,7 @@ g + geom_bar(stat=&#39;identity&#39;, position=&#39;dodge&#39;) +
   theme(axis.text.x = element_text(angle=65, vjust=0.6))
 </code></pre>
 
-<p><img src="http://i.imgur.com/4Ax9iqh.png" alt="plot of chunk unnamed-chunk-16"/></p>
+<p><img src="http://i.imgur.com/eLaSXr7.png" alt="plot of chunk unnamed-chunk-16"/></p>
 
 <p><code>position=&#39;dodge&#39;</code> had to be used because the default setting is to stack the bars, <code>&#39;dodge&#39;</code> places them side by side for comparison.  </p>
 
@@ -347,12 +347,12 @@ g + geom_bar(stat=&#39;identity&#39;, position=&#39;dodge&#39;) +
   facet_wrap(~manufacturer)
 </code></pre>
 
-<p><img src="http://i.imgur.com/9GLeW3A.png" alt="plot of chunk unnamed-chunk-17"/>
+<p><img src="http://i.imgur.com/wpsQt81.png" alt="plot of chunk unnamed-chunk-17"/>
 This created a much nicer view of the information. It &ldquo;auto-magically&rdquo; split everything out by manufacturer!</p>
 
 <h3>Spatial Plots</h3>
 
-<p>Another nice feature of ggplot2 is the integration with maps and spatial plotting. In this simple example, I wanted to plot a few cities in Colorado and draw a border around them. Notice that other than the addition of the map ggplot simply places the dots directly on the locations via their longitude and latitude &ldquo;auto-magically.&rdquo;</p>
+<p>Another nice feature of ggplot2 is the integration with maps and spatial plotting. In this simple example, I wanted to plot a few cities in Colorado and draw a border around them. Other than the addition of the map, ggplot simply places the dots directly on the locations via their longitude and latitude &ldquo;auto-magically.&rdquo;</p>
 
 <p>This map is created with <code>ggmap</code> which utilizes Google Maps API.</p>
 
@@ -384,7 +384,7 @@ colo_map + geom_point(aes(x=lon, y=lat),
                                 data = places_loc, size = 2, color = &quot;blue&quot;)
 </code></pre>
 
-<p><img src="http://i.imgur.com/p8Lal1n.png" alt="plot of chunk unnamed-chunk-18"/></p>
+<p><img src="http://i.imgur.com/rmhVRiD.png" alt="plot of chunk unnamed-chunk-18"/></p>
 
 <h3>Final Thoughts</h3>
 

@@ -3,7 +3,6 @@ title: "Data Visualization - Part 2"
 author: "Scott Stoltzman"
 date: "March 14, 2017"
 output:
-  pdf_document: default
   html_document: default
 subtitle: The Good, The Bad and The Ugly
 ---
@@ -12,7 +11,7 @@ subtitle: The Good, The Bad and The Ugly
 
 # Data Visualization - Part 2
 
-##A Quick Overview of the ggplot2 Package in R  
+## A Quick Overview of the ggplot2 Package in R  
 
 While it will be important to focus on theory, I want to explain the ggplot2 package because I will be using it throughout the rest of this series. Knowing how it works will keep the focus on the results rather than the code. It's an incredibly powerful package and once you wrap your head around what it's doing, your life will change for the better! There are a lot of tools out there which provide better charts, graphs and ease of use (i.e. plot.ly, d3.js, Qlik, Tableau), but ggplot2 is still a fantastic resource and I use it all of the time. 
 
@@ -26,7 +25,7 @@ grid.raster(img)
 ```
 
 
-### Why should you use ggplot2?  
+### Why would you use ggplot2?  
 1. More robust plotting than the base plot package
 2. Better control over aesthetics - colors, axes, background, etc.
 3. Layering
@@ -59,7 +58,7 @@ head(economics)
 ```
 
 
-```{r}
+```{r, fig.height = 4}
 # Create the plot
 ggplot(data = economics) + geom_line(aes(x = date, y = unemploy))
 ```
@@ -122,7 +121,7 @@ head(midwest)
 
 This can be called by `geom_point()` in ggplot2
 
-```{r, warning=FALSE, fig.align='center'}
+```{r, warning=FALSE, fig.align='center',fig.height = 4}
 # Scatterplot
 ggplot(data = midwest, aes(x = area, y = poptotal)) + geom_point()  #ggplot
 ```
@@ -131,7 +130,7 @@ ggplot(data = midwest, aes(x = area, y = poptotal)) + geom_point()  #ggplot
 
 While the addition of the size of the points and color don't add value, it does show the level of customization that's possible with ggplot2.
 
-```{r, warning=FALSE,message=FALSE}
+```{r, warning=FALSE,message=FALSE,fig.height = 4}
 ggplot(data = midwest, aes(x = area, y = poptotal)) + 
 geom_point(aes(col=state, size=popdensity)) + 
   geom_smooth(method="loess", se=F) + 
@@ -186,7 +185,7 @@ head(mpg)
 
 #### Sample Density Plot
 
-```{r}
+```{r,fig.height = 4}
 g = ggplot(mpg, aes(cty))
 g + geom_density(aes(fill=factor(cyl)), alpha=0.8) + 
     labs(title="Density plot", 
@@ -197,7 +196,7 @@ g + geom_density(aes(fill=factor(cyl)), alpha=0.8) +
 
 ```
 
-You'll notice one immediate difference here. The author decided to use the variable `g` to equal `ggplot(mpg, aes(cty))` - this is a nice trick and will save you some time if you plan on keeping `ggplot(mpg, aes(cty))` as the fundamental plot and simply exploring other visualizations on top of it. It is also handy if you need to save the output of a chart to an image file.
+You'll notice one immediate difference here. The author decided to create a the object `g` to equal `ggplot(mpg, aes(cty))` - this is a nice trick and will save you some time if you plan on keeping `ggplot(mpg, aes(cty))` as the fundamental plot and simply exploring other visualizations on top of it. It is also handy if you need to save the output of a chart to an image file.
 
 `ggplot(mpg, aes(cty))` loads the mpg data and `aes(cty)` assumes `aes(x = cty)`  
 
@@ -216,11 +215,11 @@ You'll notice one immediate difference here. The author decided to use the varia
 Labeling is cleaned up at the end.
 
 
-#### How would you use your new knowledge to see the density by class instead of by # of cylinders?  
+#### How would you use your new knowledge to see the density by class instead of by number of cylinders?  
 
 ***Hint: *** `g = ggplot(mpg, aes(cty))` has already been established.
 
-```{r}
+```{r,fig.height = 4}
 g + geom_density(aes(fill=factor(class)), alpha=0.8) + 
     labs(title="Density plot", 
          subtitle="City Mileage Grouped by Class",
@@ -228,13 +227,13 @@ g + geom_density(aes(fill=factor(class)), alpha=0.8) +
          x="City Mileage",
          fill="Class")
 ```
-Notice how I didn't have to write out `ggplot()` again because it was already stored in the variable `g`.
+Notice how I didn't have to write out `ggplot()` again because it was already stored in the object `g`.
 
 ### The Histogram  
 
 How could we show the city mileage in a histogram?
 
-```{r}
+```{r,fig.height = 4}
 g = ggplot(mpg,aes(cty))
 g + geom_histogram(bins=20) +
     labs(title="Histogram", 
@@ -257,7 +256,7 @@ head(df)
 ```
 
 
-```{r}
+```{r,fig.height = 4}
 #Set a theme
 theme_set(theme_classic())
 
@@ -277,7 +276,7 @@ Within `geom_bar()` there is another new piece of information: `stat="identity"`
 
 You may also notice that ggplot arranged all of the data in alphabetical order based off of the manufacturer. If you want to change the order, it's best to use the `reorder()` function. This next chart will use the `Freq` and `coord_flip()` to orient the chart differently. 
 
-```{r}
+```{r,fig.height = 4}
 g <- ggplot(df, aes(reorder(Var1,Freq), Freq))
 g + geom_bar(stat="identity", width = 0.5, fill="tomato2") + 
       labs(title="Bar Chart", 
@@ -290,7 +289,7 @@ g + geom_bar(stat="identity", width = 0.5, fill="tomato2") +
 
 Let's continue with bar charts - what if we wanted to see what `hwy` looked like by `manufacturer` and in terms of `cyl`?
 
-```{r}
+```{r,fig.height = 4}
 g = ggplot(mpg,aes(x=manufacturer,y=hwy,col=factor(cyl),fill=factor(cyl)))
 g + geom_bar(stat='identity', position='dodge') + 
   theme(axis.text.x = element_text(angle=65, vjust=0.6))
@@ -312,7 +311,7 @@ This created a much nicer view of the information. It "auto-magically" split eve
 
 ### Spatial Plots
 
-Another nice feature of ggplot2 is the integration with maps and spatial plotting. In this simple example, I wanted to plot a few cities in Colorado and draw a border around them. Notice that other than the addition of the map ggplot simply places the dots directly on the locations via their longitude and latitude "auto-magically."
+Another nice feature of ggplot2 is the integration with maps and spatial plotting. In this simple example, I wanted to plot a few cities in Colorado and draw a border around them. Other than the addition of the map, ggplot simply places the dots directly on the locations via their longitude and latitude "auto-magically."
 
 This map is created with `ggmap` which utilizes Google Maps API.
 
