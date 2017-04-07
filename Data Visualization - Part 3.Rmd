@@ -1,20 +1,69 @@
 ---
 title: "Data Visualization - Part 3"
 author: "Scott Stoltzman"
-date: "March 28, 2017"
+date: "April 7, 2017"
 output: html_document
 ---
 
-```{r setup, results='hide', warning=FALSE, message=FALSE,echo=FALSE}
-library(png)
-library(grid)
-```
 
-### Do You Actually Need a Visualization?
+### What Type of Data Visualization Do You Choose (if any)?
 
 ```{r, fig.align='center',echo=FALSE}
+library(png)
+library(grid)
 img = readPNG("images/title_photo_3.png")
 grid.raster(img)
+```
+
+This is Part 3 in a series about Data visualization:  
+
+* [Data Visualization - Part 1](https://www.stoltzmaniac.com/data-visualization-part-1?utm_medium=SERIES&utm_source=DATA_VISUALIZATION_TOP)
+* [Data Visualization - Part 2](https://www.stoltzmaniac.com/data-visualization-part-2?utm_medium=SERIES&utm_source=DATA_VISUALIZATION_TOP)
+
+#### Determine whether or not you actually need a visualizatoin in the first place.
+
+Like the best practices I listed in [Data Visualization - Part 1](https://www.stoltzmaniac.com/data-visualization-part-1?utm_medium=SERIES&utm_source=DATA_VISUALIZATION_MID_ARTICLE), make sure your visualizations:
+
+- Are clearly illustrating a relevant point  
+- Are tailored to the appropriate audience  
+- Are tailored to the presentation medium  
+- Are memorable to those who care about the material  
+- Are increasing the understanding of the subject matter  
+  
+If these don't seem possible to do, ***you probably don't need a data visualization.***  
+
+#### If you do need one, what's a good first step to take?
+
+The forum in which you're presenting matters! If you are writing for a scientific journal, it will be different than presenting live to a thousand person audience. Think about a Ted Talk compared to the Journal of Physics.  
+
+Point being: **consider your audience!**  
+
+Let's talk about a high-level presentation. Everyone has seen a slideshow with fancy charts that add zero value. Do not be the person presenting something that way! Providing useless content will confuse the audience and/or lead to boredom.
+
+If your point is to show year-over-year change of a single metric - show it as a simple number on the page in big bold font rather than a chart.
+
+In this made up example, I am displaying revenue over the last few years (***note: be more specific*** when it comes to what type of revenue you're talking about).  
+
+Which of the following makes more sense to put on a slide?
+
+```{r, fig.align='center',echo=FALSE}
+img = readPNG("images/chart_vs_text.png")
+grid.raster(img)
+```
+
+If you agree with me, the one on the right will be much easier for people to understand in a presentation. It gets the point across without requiring processing which will allow people to focus on what is important. Any additional nuggets you would like to point out can be spoken to. 
+
+Now, let's talk about publishing content that isn't for academic use but will reach the public (i.e. newspapers, magazines, blogs, etc.). These types of charts can cover a wide range of topics so we'll have to stick to the basics. We're going to look at displaying information which is interesting and adds value.
+
+
+
+
+```{r,results='hide', warning=FALSE, message=FALSE}
+library(dplyr)
+library(ggplot2)
+
+# Load the economics data from ggplot2
+data(economics,package='ggplot2')
 ```
 
 #### Know what you are trying to achieve before starting

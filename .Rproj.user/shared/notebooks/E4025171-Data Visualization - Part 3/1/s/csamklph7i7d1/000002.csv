@@ -1,2 +1,4 @@
+"0","library(png)"
+"0","library(grid)"
 "0","img = readPNG(""images/title_photo_3.png"")"
 "0","grid.raster(img)"

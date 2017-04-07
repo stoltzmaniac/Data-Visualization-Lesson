@@ -1,0 +1,2 @@
+"0","img = readPNG(""images/chart_vs_text.png"")"
+"0","grid.raster(img)"
