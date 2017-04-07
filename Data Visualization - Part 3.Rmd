@@ -6,11 +6,17 @@ output: html_document
 ---
 
 
-### What Type of Data Visualization Do You Choose (if any)?
+### What Type of Data Visualization Do You Choose (if any)?  
 
-```{r, fig.align='center',echo=FALSE}
+Determining whether or not you need a visualization is ***step one***. While it seems silly, this is probably something everyone (including myself) should be doing more often. A lot of times, it seems like a great way to showcase the amount of work you have been doing, but winds up being completely ineffective and could potentially harm what you're doing. Once you determine that you actually need to visualize your data, you should have a rough idea of the options to look at. This post will explain and demonstrate some of the common types of charts and plots.  
+
+
+```{r, echo=FALSE,results='hide', warning=FALSE, message=FALSE}
 library(png)
 library(grid)
+```
+
+```{r, fig.align='center',echo=FALSE}
 img = readPNG("images/title_photo_3.png")
 grid.raster(img)
 ```
@@ -30,11 +36,11 @@ Like the best practices I listed in [Data Visualization - Part 1](https://www.st
 - Are memorable to those who care about the material  
 - Are increasing the understanding of the subject matter  
   
-If these don't seem possible to do, ***you probably don't need a data visualization.***  
+If these don't seem possible, ***you probably don't need a data visualization.***  
 
 #### If you do need one, what's a good first step to take?
 
-The forum in which you're presenting matters! If you are writing for a scientific journal, it will be different than presenting live to a thousand person audience. Think about a Ted Talk compared to the Journal of Physics.  
+Take a look at the forum in which you're presenting, it matters! If you are writing for a scientific journal, it will be different than presenting live to a thousand person audience. Think about a Ted Talk compared to the Journal of Physics.  
 
 Point being: **consider your audience!**  
 
@@ -53,34 +59,30 @@ grid.raster(img)
 
 If you agree with me, the one on the right will be much easier for people to understand in a presentation. It gets the point across without requiring processing which will allow people to focus on what is important. Any additional nuggets you would like to point out can be spoken to. 
 
-Now, let's talk about publishing content that isn't for academic use but will reach the public (i.e. newspapers, magazines, blogs, etc.). These types of charts can cover a wide range of topics so we'll have to stick to the basics. We're going to look at displaying information which is interesting and adds value.
+Now, let's talk about publishing content that isn't for academic use but will reach the public (i.e. newspapers, magazines, blogs, etc.). These types of charts can cover a wide range of topics so we'll have to stick to the basics. We're going to look at displaying information which is interesting and adds value.  
+
+Here is a great example from [Junk Charts](http://junkcharts.typepad.com/junk_charts/2017/04/what-does-lying-politicians-have-in-common-with-rainbow-colors.html) in which the author of the original [Daily Kos Article](http://www.dailykos.com/story/2016/8/7/1556666/-Three-lessons-from-the-rise-of-Donald-Trump) is showing a type of "lie detector" chart. The chart does a number of things well: it illustrates a relevant point, it is appropriate to the audience and medium, and really helps to understand the subject matter better. However, the original chart is too colorful which takes away from its effectiveness. Junk Charts took it to the next level by simplifying the colors and axes.  
 
 
-
-
-```{r,results='hide', warning=FALSE, message=FALSE}
-library(dplyr)
-library(ggplot2)
-
-# Load the economics data from ggplot2
-data(economics,package='ggplot2')
+```{r, echo=FALSE,results='hide', warning=FALSE, message=FALSE}
+library(gridExtra)
 ```
 
-#### Know what you are trying to achieve before starting
+```{r, fig.align='center',echo=FALSE,fig.height=5,fig.show='hold'}
+img1 = rasterGrob(as.raster(readPNG("images/lie_chart_bad.png"),interpolate=FALSE))
+img2 = rasterGrob(as.raster(readPNG("images/lie_chart_fixed.png"),interpolate=FALSE))
+grid.arrange(img1,img2,ncol=2)
+```  
 
-Let's load up some libraries and get started.
+By merely looking at this chart you can see how it is ranked, a sense of scale, the comparison between people, and clearly labeled names. Fantastic work!  
 
-```{r libraryPrep, results='hide', warning=FALSE, message=FALSE}
-library(ggplot2)
-library(dplyr)
-library(tidyr)
-library(lubridate)
-library(scales)
-```
+Rather than going over more examples of work others are doing, please visit [Chart Porn](http://chartporn.org/) (don't worry about the name, it's a great data visualization site) and [Junk Charts](http://junkcharts.typepad.com/). They have phenomenal examples of what to do (and what not to do) when publishing to the public.
 
-## Decide on what you're trying to accomplish first.  
+#### You have a point, now what?  
 
-Ask yourself the following questions to help drive your decision:  
+There is no rulebook as to how to display your data. However, as you have seen, there are both great and poor options. The choice is up to you - so think long and hard before making a decision (and you can always try a number of them out on people before publishing).
+
+**Ask yourself the following questions to help drive your decision:**  
 
 - Are you making a comparison?
 - Are you finding a relationship?
@@ -92,17 +94,26 @@ Once you know which question you are asking, it will keep your mind focused on t
 
 #### Rule of Thumb  
 
-- **Trend: ** Column, Line  
-- **Comparison: ** Area, Bar, Bullet, Column, Line, Scatter  
-- **Relationship: ** Line, Scatter  
-- **Distribution: ** Bar, Boxplot, Column  
-- **Composition: ** Donut, Pie, Stacked Bar, Stacked Column  
+- **Trend:** Column, Line  
+- **Comparison:** Area, Bar, Bullet, Column, Line, Scatter  
+- **Relationship:** Line, Scatter  
+- **Distribution:** Bar, Boxplot, Column  
+- **Composition:** Donut, Pie, Stacked Bar, Stacked Column  
   
-Obviously, there are choices beyond these and you need to make your choice wisely. 
-
-Side Note: I ***hate*** donut and pie charts! When used properly, they're terriffic! However, I'm very used to gagging every time one appears on a projector screen due to how frequently they're used inappropriately.
+Obviously, there are plenty of choices beyond these, so don't hesitate to use what works best. I will go over some of these basics and show some comparisons of poor charting techniques vs. slightly better ones.
 
 For this project, I'll use some oil production data that I found while digging through http://data.world (pretty great site). The data can be found [here](http://www.eia.gov/dnav/pet/pet_crd_crpdn_adc_mbbl_m.htm)  
+
+Let's load up some libraries and get started.
+
+```{r libraryPrep, results='hide', warning=FALSE, message=FALSE}
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(lubridate)
+library(scales)
+```
+
 
 
 ```{r dataLoading, results='hide', warning=FALSE, message=FALSE}
@@ -120,9 +131,7 @@ head(data)
 
 ## Trend - Line Chart
 
-**Objective:** Visualize a trend in oil production in the US from 1981 - 2016 by year. I want to illustrate the changes over the time period. This is a very high-level view and only shows us a decline followed by a ramp up at the end of the period. This is ***exploratory visualization.***
-
-I decided to use a line chart to show the trend over time. When using discrete data you should use a column chart to avoid any confusion that in between these years the data actually was simply linear. However, it paints a much clearer picture this way and is not misleading.
+**Objective:** Visualize a trend in oil production in the US from 1981 - 2016 by year. I want to illustrate the changes over the time period. This is a very high-level view and only shows us a decline followed by a ramp up at the end of the period.
 
 #### Poor Version  
 The x-axis is a disaster and the y-axis isn't formatted well. While it gets the point across, it's still worthless.
@@ -157,7 +166,7 @@ p + geom_line(stat='identity') +
 
 ## Comparison - Line Chart  
 
-**Objective**: Identify which states affected the trend the most. Evaluate them simultaneously in order to paint the picture and compare their trends over the time period. From this visual you can see the top states are Alaska, California, Louisiana, Oklahoma, Texas and Wyoming. Texas seems to break the mold quite drastically and drove the spike which occurred after 2010. This is another example of ***exploratory visualization.***
+**Objective**: Identify which states affected the trend the most. Evaluate them simultaneously in order to paint the picture and compare their trends over the time period. From this visual you can see the top states are Alaska, California, Louisiana, Oklahoma, Texas and Wyoming. Texas seems to break the mold quite drastically and drove the spike which occurred after 2010.
 
 #### Poor Version  
 There are far too many colors going on here. Everything at the bottom of the chart is relatively useless and takes our focus away from the big players. 
@@ -177,7 +186,7 @@ p + geom_line(stat='identity') +
 ```
 
 #### Better Version  
-This focuses attention on the top producing states. It compares them to each other and shows the trend per state as well.
+This focuses attention on the top producing states. It compares them to each other and shows the trend per state as well. Using facet_wrap() tends to be used in what's known as "small multiples" - this is a technique which helps to break up the visual components of the data into easy-to-understand pieces which make intuitive sense.
 
 ```{r,warning=FALSE,fig.width=10,message=FALSE}
 n=6 #Arbitrary at first, after trying a few, this made the most sense
@@ -209,12 +218,10 @@ p + geom_line(stat='identity') +
 
 ## Relationship - Scatter Plot
 
-**Objective**: See if  data from Alaska and California is correlated (This probably isn't important but it allows us to use the same data).
-
-### Which of these views would you rather see?
+**Objective**: Check to see if data from Alaska and California is correlated. While this isn't extremely interesting, it does allow us to use this same data set (sorry). The charts indicate that there appears to be a strong positive correlation between the two states.
 
 #### Poor Version  
-Lots of completely irrelevant data! Size of the point should have nothing to do with the year.  
+Lots of completely irrelevant data! The size of the point should have nothing to do with the year.  
 
 ```{r,warning=FALSE,fig.width=10,message=FALSE}
 statesList = c('Alaska','California')
@@ -233,7 +240,7 @@ p + geom_point() +
 ```
 
 #### Better Version  
-The trend line is nice because it helps to visualize the relationship even more. While it can sometimes be misleading, it makes sense with our current data.  
+The points are all the same size and a trend line helps to visualize the relationship. While it can sometimes be misleading, it makes sense with our current data.  
 
 ```{r,warning=FALSE,fig.width=10,message=FALSE}
 df = data %>%
@@ -251,17 +258,13 @@ p + geom_point() +
 
 ```
 
-
-
-
 ## Distribution - Boxplot 
 
-**Objective**: Examine the range of production by state and year over the time period to give us an idea of the variance.
+**Objective**: Examine the range of production by state (per year) to give us an idea of the variance. While the sums and means are nice, it's quite important to have an idea of distributions. While it was semi-apparent in the line charts, the variance of Texas is huge compared to the others! 
 
-### Which of these views would you rather see?
 
 #### Poor Version  
-
+Alphabetical order doesn't add any value, names are overlapping on top of each other. While you can tell who the big players are, this visual does not add the value it should.
 
 ```{r,warning=FALSE,fig.width=10,message=FALSE}
 df = data %>%
@@ -276,7 +279,7 @@ p + geom_boxplot() +
 
 
 #### Better Version  
-This gives a nice ranking to the plot while still showing their distributions. While it was semi-apparent in the line charts, the variance of Texas is huge compared to the others! We could take this a step further and separate out the big players from the smaller players.
+This gives a nice ranking to the plot while still showing their distributions. We could take this a step further and separate out the big players from the small players (I'll leave that up to you).
 
 ```{r,warning=FALSE,fig.width=10,message=FALSE}
 p = ggplot(df,aes(x=reorder(Location,ThousandBarrel),y=ThousandBarrel))
@@ -289,12 +292,11 @@ p + geom_boxplot() +
 
 ## Composition - Stacked Bar 
 
-**Objective**: Check out the composition of total production by state.
+**Objective**: Check out the composition of total production by state. It's interesting to see how the composition was relatively similar across decades until the 2010's. Texas was 50% of the output!
 
-### Which of these views would you rather see?
 
 #### Poor Version  
-My favorite, the beautiful pie chart! There's nothing better than this...
+My favorite, the beautiful pie chart! There's nothing better than this... (no need for further commentary).
 
 ```{r,warning=FALSE,fig.width=10,message=FALSE}
 df = data %>%
@@ -313,7 +315,7 @@ pie(x=df$ThousandBarrel,labels=df$Location,explode=0.1,col=rainbow(nrow(df)),mai
 #### Better Version  
 The 1980's and 2010's will be missing years in terms of a "decade" due to the data provided (and it's only 2017). While the percentage labels are slightly off center, it's certainly much better than the pie chart. It's not quite "apples-to-apples" for a comparison because I created different decades, but you get the idea.
 
-I also created an "Other" category in order to simplify the output. When you are doing comparisons, it's typically a good idea to find a way to reduce the number of variables in the output while not removing data by dropping it completely.
+I also created an "Other" category in order to simplify the output. When you are doing comparisons, it's typically a good idea to find a way to reduce the number of variables in the output while not removing data by dropping it completely - **do this carefully and transparently!**
 
 ```{r,warning=FALSE,fig.width=10,message=FALSE}
 data$Decade = '1980s'
@@ -361,12 +363,14 @@ p + geom_bar(stat='identity') +
 ### Some other fun concepts are below!  
 Some of them are nice, others are terrible! I won't comment on any of them, but I felt it was necessary to include some other ideas I toyed around with. 
 
-Have fun with your data visualizations. The charts I showed here are extremely simple. Being creative by using things other than R wind up making visuals people can remember. There are plenty of examples around, but they all tend to follow basic principles of design. There are ***A TON*** of good books out there on this topic. 
+Have fun with your data visualizations: be creative, think outside the box, use tools other than computers if it makes sense, fail often but learn quickly. I'm sure I'll think of a thousand better ways to have illustrated the concepts in this post by tomorrow, so I'll make updates as I think of them!
 
 Now it's your turn!
 
+As always, the code used in this post is on my [GitHub](https://github.com/stoltzmaniac/Data-Visualization-Lesson)
 
-```{r}
+
+```{r,fig.height=4}
 df = data %>% 
   group_by(Location) %>%
   summarise(ThousandBarrel = sum(ThousandBarrel)) %>%
@@ -382,7 +386,7 @@ p + geom_bar(stat='identity') +
 
 
 
-```{r}
+```{r,fig.height=4}
 top10 = data %>%
   group_by(Location) %>%
   summarise(ThousandBarrel = sum(ThousandBarrel)) %>%
@@ -403,7 +407,7 @@ p + geom_bar(stat='identity') +
 
 
 
-```{r, fig.width=10}
+```{r, fig.height=4}
 df = data %>%
   filter(Year == 1990)%>%
   group_by(Location) %>%
@@ -425,7 +429,7 @@ ggplot(df, aes(map_id = Location)) +
 ```
 
 
-```{r}
+```{r, fig.height=4}
 df = data %>% 
   filter(Location == 'Texas') %>%
   group_by(Year,Month) %>%
@@ -439,4 +443,8 @@ p + geom_line(stat='identity',aes(group=Year,col=Year)) +
 ```
 
 
-As always, the code used in this post is on my [GitHub](https://github.com/stoltzmaniac/Data-Visualization-Lesson)
+
+
+
+
+
