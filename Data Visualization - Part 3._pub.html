@@ -1,2 +1,454 @@
 <h3>What Type of Data Visualization Do You Choose (if any)?</h3>
 
+<p>Determining whether or not you need a visualization is <strong><em>step one</em></strong>. While it seems silly, this is probably something everyone (including myself) should be doing more often. A lot of times, it seems like a great way to showcase the amount of work you have been doing, but winds up being completely ineffective and could potentially harm what you&#39;re doing. Once you determine that you actually need to visualize your data, you should have a rough idea of the options to look at. This post will explain and demonstrate some of the common types of charts and plots.  </p>
+
+<p><img src="https://www.stoltzmaniac.com/wp-content/uploads/2017/04/unnamed-chunk-2-1-4.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" style="display: block; margin: auto;" /></p>
+
+<p>This is Part 3 in a series about Data visualization:  </p>
+
+<ul>
+<li><a href="https://www.stoltzmaniac.com/data-visualization-part-1?utm_medium=SERIES&amp;utm_source=DATA_VISUALIZATION_TOP">Data Visualization - Part 1</a></li>
+<li><a href="https://www.stoltzmaniac.com/data-visualization-part-2?utm_medium=SERIES&amp;utm_source=DATA_VISUALIZATION_TOP">Data Visualization - Part 2</a></li>
+</ul>
+
+<h4>Determine whether or not you actually need a visualizatoin in the first place.</h4>
+
+<p>Like the best practices I listed in <a href="https://www.stoltzmaniac.com/data-visualization-part-1?utm_medium=SERIES&amp;utm_source=DATA_VISUALIZATION_MID_ARTICLE">Data Visualization - Part 1</a>, make sure your visualizations:</p>
+
+<ul>
+<li>Are clearly illustrating a relevant point<br/></li>
+<li>Are tailored to the appropriate audience<br/></li>
+<li>Are tailored to the presentation medium<br/></li>
+<li>Are memorable to those who care about the material<br/></li>
+<li>Are increasing the understanding of the subject matter<br/></li>
+</ul>
+
+<p>If these don&#39;t seem possible, <strong><em>you probably don&#39;t need a data visualization.</em></strong>  </p>
+
+<h4>If you do need one, what&#39;s a good first step to take?</h4>
+
+<p>Take a look at the forum in which you&#39;re presenting, it matters! If you are writing for a scientific journal, it will be different than presenting live to a thousand person audience. Think about a Ted Talk compared to the Journal of Physics.  </p>
+
+<p>Point being: <strong>consider your audience!</strong>  </p>
+
+<p>Let&#39;s talk about a high-level presentation. Everyone has seen a slideshow with fancy charts that add zero value. Do not be the person presenting something that way! Providing useless content will confuse the audience and/or lead to boredom.</p>
+
+<p>If your point is to show year-over-year change of a single metric - show it as a simple number on the page in big bold font rather than a chart.</p>
+
+<p>In this made up example, I am displaying revenue over the last few years (<strong><em>note: be more specific</em></strong> when it comes to what type of revenue you&#39;re talking about).  </p>
+
+<p>Which of the following makes more sense to put on a slide?</p>
+
+<p><img src="https://www.stoltzmaniac.com/wp-content/uploads/2017/04/unnamed-chunk-3-1-4.png" title="plot of chunk unnamed-chunk-3" alt="plot of chunk unnamed-chunk-3" style="display: block; margin: auto;" /></p>
+
+<p>If you agree with me, the one on the right will be much easier for people to understand in a presentation. It gets the point across without requiring processing which will allow people to focus on what is important. Any additional nuggets you would like to point out can be spoken to. </p>
+
+<p>Now, let&#39;s talk about publishing content that isn&#39;t for academic use but will reach the public (i.e. newspapers, magazines, blogs, etc.). These types of charts can cover a wide range of topics so we&#39;ll have to stick to the basics. We&#39;re going to look at displaying information which is interesting and adds value.  </p>
+
+<p>Here is a great example from <a href="http://junkcharts.typepad.com/junk_charts/2017/04/what-does-lying-politicians-have-in-common-with-rainbow-colors.html">Junk Charts</a> in which the author of the original <a href="http://www.dailykos.com/story/2016/8/7/1556666/-Three-lessons-from-the-rise-of-Donald-Trump">Daily Kos Article</a> is showing a type of &ldquo;lie detector&rdquo; chart. The chart does a number of things well: it illustrates a relevant point, it is appropriate to the audience and medium, and really helps to understand the subject matter better. However, the original chart is too colorful which takes away from its effectiveness. Junk Charts took it to the next level by simplifying the colors and axes.  </p>
+
+<h4>Original Version (Daily Kos)</h4>
+
+<p><img src="https://www.stoltzmaniac.com/wp-content/uploads/2017/04/unnamed-chunk-4-1-2.png" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" style="display: block; margin: auto;" /></p>
+
+<h4>Modified Version (Junk Charts)</h4>
+
+<p><img src="https://www.stoltzmaniac.com/wp-content/uploads/2017/04/unnamed-chunk-5-1-4.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" style="display: block; margin: auto;" /></p>
+
+<p>By merely looking at this chart you can see how it is ranked, a sense of scale, the comparison between people, and clearly labeled names. Fantastic work!  </p>
+
+<p>Rather than going over more examples of work others are doing, please visit <a href="http://chartporn.org/">Chart Porn</a> (don&#39;t worry about the name, it&#39;s a great data visualization site) and <a href="http://junkcharts.typepad.com/">Junk Charts</a>. They have phenomenal examples of what to do (and what not to do) when publishing to the public.</p>
+
+<h4>You have a point, now what?</h4>
+
+<p>There is no rulebook as to how to display your data. However, as you have seen, there are both great and poor options. The choice is up to you - so think long and hard before making a decision (and you can always try a number of them out on people before publishing).</p>
+
+<p><strong>Ask yourself the following questions to help drive your decision:</strong>  </p>
+
+<ul>
+<li>Are you making a comparison?</li>
+<li>Are you finding a relationship?</li>
+<li>Are you showing a distribution?</li>
+<li>Are you finding a trend over time?</li>
+<li>Are you showing composition?</li>
+</ul>
+
+<p>Once you know which question you are asking, it will keep your mind focused on the outcome and will quickly narrow down your charting options.</p>
+
+<h4>Rule of Thumb</h4>
+
+<ul>
+<li><strong>Trend:</strong> Column, Line<br/></li>
+<li><strong>Comparison:</strong> Area, Bar, Bullet, Column, Line, Scatter<br/></li>
+<li><strong>Relationship:</strong> Line, Scatter<br/></li>
+<li><strong>Distribution:</strong> Bar, Boxplot, Column<br/></li>
+<li><strong>Composition:</strong> Donut, Pie, Stacked Bar, Stacked Column<br/></li>
+</ul>
+
+<p>Obviously, there are plenty of choices beyond these, so don&#39;t hesitate to use what works best. I will go over some of these basics and show some comparisons of poor charting techniques vs. slightly better ones.</p>
+
+<p>For this project, I&#39;ll use some oil production data that I found while digging through <a href="http://data.world">http://data.world</a> (pretty great site). The data can be found <a href="http://www.eia.gov/dnav/pet/pet_crd_crpdn_adc_mbbl_m.htm">here</a>  </p>
+
+<p>Let&#39;s load up some libraries and get started.</p>
+
+<pre><code class="r">library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(lubridate)
+library(scales)
+</code></pre>
+
+<pre><code class="r">#Custom data preparation
+#GitHub (linked to at bottom of this post)
+source(&#39;data_preparation.R&#39;)
+data = getData()
+</code></pre>
+
+<pre><code class="r">head(data)
+</code></pre>
+
+<pre><code>##   Location Month Year ThousandBarrel       Date
+## 1  Alabama   Mar 2013            883 2013-03-01
+## 2  Alabama   Apr 2013            844 2013-04-01
+## 3  Alabama   May 2013            878 2013-05-01
+## 4  Alabama   Feb 2013            809 2013-02-01
+## 5  Alabama   Mar 1982           1687 1982-03-01
+## 6  Alabama   Apr 1982           1567 1982-04-01
+</code></pre>
+
+<hr/>
+
+<h2>Trend - Line Chart</h2>
+
+<p><strong>Objective:</strong> Visualize a trend in oil production in the US from 1981 - 2016 by year. I want to illustrate the changes over the time period. This is a very high-level view and only shows us a decline followed by a ramp up at the end of the period.</p>
+
+<h4>Poor Version</h4>
+
+<p>The x-axis is a disaster and the y-axis isn&#39;t formatted well. While it gets the point across, it&#39;s still worthless.</p>
+
+<pre><code class="r">df = data %&gt;% 
+  group_by(Year) %&gt;%
+  summarise(ThousandBarrel = sum(ThousandBarrel))
+
+p = ggplot(df,aes(x=Year,y=ThousandBarrel,group=1)) 
+p + geom_line(stat=&#39;identity&#39;) + 
+  ggtitle(&#39;Oil Production Over Time&#39;) + 
+  theme(plot.title = element_text(hjust = 0.5),plot.subtitle = element_text(hjust = 0.5)) + 
+  xlab(&#39;&#39;) + ylab(&#39;&#39;)
+</code></pre>
+
+<p><img src="https://www.stoltzmaniac.com/wp-content/uploads/2017/04/unnamed-chunk-7-1-4.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" style="display: block; margin: auto;" /></p>
+
+<h4>Better Version</h4>
+
+<p>The title gives us a much better understanding of what we&#39;re looking at. The chart is slightly wider and the axes are formatted to be legible.</p>
+
+<pre><code class="r">p = ggplot(df,aes(x=Year,y=ThousandBarrel,group=1)) 
+p + geom_line(stat=&#39;identity&#39;) + 
+  ggtitle(&#39;Thousand Barrel Oil Production By Year in the U.S.&#39;) +
+  theme(plot.title = element_text(hjust = 0.5),plot.subtitle = element_text(hjust = 0.5)) + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
+  scale_y_continuous(labels = comma)
+</code></pre>
+
+<p><img src="https://www.stoltzmaniac.com/wp-content/uploads/2017/04/unnamed-chunk-8-1-4.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" style="display: block; margin: auto;" /></p>
+
+<hr/>
+
+<h2>Comparison - Line Chart</h2>
+
+<p><strong>Objective</strong>: Identify which states affected the trend the most. Evaluate them simultaneously in order to paint the picture and compare their trends over the time period. From this visual you can see the top states are Alaska, California, Louisiana, Oklahoma, Texas and Wyoming. Texas seems to break the mold quite drastically and drove the spike which occurred after 2010.</p>
+
+<h4>Poor Version</h4>
+
+<p>There are far too many colors going on here. Everything at the bottom of the chart is relatively useless and takes our focus away from the big players. </p>
+
+<pre><code class="r">df = data %&gt;%
+  group_by(Location, Year) %&gt;%
+  summarise(ThousandBarrel = sum(ThousandBarrel))
+
+df$Year = as.numeric(df$Year)
+
+p = ggplot(df,aes(x=Year,y=ThousandBarrel,col=Location))
+p + geom_line(stat=&#39;identity&#39;) + 
+  ggtitle(paste(&#39;Oil Production By Year By State in the U.S.&#39;)) + 
+  theme(plot.title = element_text(hjust = 0.5)) + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+</code></pre>
+
+<p><img src="https://www.stoltzmaniac.com/wp-content/uploads/2017/04/unnamed-chunk-9-1-4.png" alt="plot of chunk unnamed-chunk-9"/></p>
+
+<h4>Better Version</h4>
+
+<p>This focuses attention on the top producing states. It compares them to each other and shows the trend per state as well. Using facet_wrap() tends to be used in what&#39;s known as &ldquo;small multiples&rdquo; - this is a technique which helps to break up the visual components of the data into easy-to-understand pieces which make intuitive sense.</p>
+
+<pre><code class="r">n=6 #Arbitrary at first, after trying a few, this made the most sense
+topN = data %&gt;%
+  group_by(Location) %&gt;%
+  summarise(ThousandBarrel = sum(ThousandBarrel)) %&gt;%
+  arrange(-ThousandBarrel) %&gt;%
+  top_n(n)
+
+df = data %&gt;%
+  filter(Location %in% topN$Location) %&gt;%
+  group_by(Year,Location) %&gt;%
+  summarise(ThousandBarrel = sum(ThousandBarrel))
+
+df$Year = as.numeric(df$Year)
+df$Location = as.factor(df$Location)
+
+p = ggplot(df,aes(x=Year,y=ThousandBarrel,group=1))
+p + geom_line(stat=&#39;identity&#39;) + 
+  ggtitle(paste(&#39;Top&#39;,as.character(n),&#39;States - Oil Production By Year in the U.S.&#39;)) + 
+  theme(plot.title = element_text(hjust = 0.5)) + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
+  facet_wrap(~Location) + 
+  scale_y_continuous(labels = comma) 
+</code></pre>
+
+<p><img src="https://www.stoltzmaniac.com/wp-content/uploads/2017/04/unnamed-chunk-10-1-4.png" alt="plot of chunk unnamed-chunk-10"/></p>
+
+<hr/>
+
+<h2>Relationship - Scatter Plot</h2>
+
+<p><strong>Objective</strong>: Check to see if data from Alaska and California is correlated. While this isn&#39;t extremely interesting, it does allow us to use this same data set (sorry). The charts indicate that there appears to be a strong positive correlation between the two states.</p>
+
+<h4>Poor Version</h4>
+
+<p>Lots of completely irrelevant data! The size of the point should have nothing to do with the year.  </p>
+
+<pre><code class="r">statesList = c(&#39;Alaska&#39;,&#39;California&#39;)
+df = data %&gt;%
+  filter(Location %in% statesList) %&gt;%
+  spread(Location,ThousandBarrel) %&gt;%
+  select(Alaska,California,Month,Year)
+
+p = ggplot(df,aes(x=Alaska,y=California,col=Month,size=Year))
+p + geom_point() + 
+  scale_y_continuous(labels = comma) +
+  scale_x_continuous(labels = comma) +
+  ggtitle(&#39;Oil Production - CA vs. AK&#39;) + 
+  theme(plot.title = element_text(hjust = 0.5))
+</code></pre>
+
+<p><img src="https://www.stoltzmaniac.com/wp-content/uploads/2017/04/unnamed-chunk-11-1-4.png" alt="plot of chunk unnamed-chunk-11"/></p>
+
+<h4>Better Version</h4>
+
+<p>The points are all the same size and a trend line helps to visualize the relationship. While it can sometimes be misleading, it makes sense with our current data.  </p>
+
+<pre><code class="r">df = data %&gt;%
+  filter(Location %in% statesList) %&gt;%
+  spread(Location,ThousandBarrel) %&gt;%
+  select(Alaska,California,Year)
+
+p = ggplot(df,aes(x=Alaska,y=California))
+p + geom_point() + 
+  scale_y_continuous(labels = comma) +
+  scale_x_continuous(labels = comma) +
+  ggtitle(&#39;Monthly Thousand Barrel Oil Production 1981-2016 CA vs. AK&#39;) + 
+  theme(plot.title = element_text(hjust = 0.5)) + 
+  geom_smooth(method=&#39;lm&#39;)
+</code></pre>
+
+<p><img src="https://www.stoltzmaniac.com/wp-content/uploads/2017/04/unnamed-chunk-12-1-4.png" alt="plot of chunk unnamed-chunk-12"/></p>
+
+<h2>Distribution - Boxplot</h2>
+
+<p><strong>Objective</strong>: Examine the range of production by state (per year) to give us an idea of the variance. While the sums and means are nice, it&#39;s quite important to have an idea of distributions. While it was semi-apparent in the line charts, the variance of Texas is huge compared to the others! </p>
+
+<h4>Poor Version</h4>
+
+<p>Alphabetical order doesn&#39;t add any value, names are overlapping on top of each other. While you can tell who the big players are, this visual does not add the value it should.</p>
+
+<pre><code class="r">df = data %&gt;%
+  group_by(Year,Location) %&gt;%
+  summarise(ThousandBarrel = sum(ThousandBarrel))
+
+p = ggplot(df,aes(x=Location,y=ThousandBarrel))
+p + geom_boxplot() + 
+  ggtitle(&#39;Distribution of Oil Production by State&#39;)
+</code></pre>
+
+<p><img src="https://www.stoltzmaniac.com/wp-content/uploads/2017/04/unnamed-chunk-13-1-4.png" alt="plot of chunk unnamed-chunk-13"/></p>
+
+<h4>Better Version</h4>
+
+<p>This gives a nice ranking to the plot while still showing their distributions. We could take this a step further and separate out the big players from the small players (I&#39;ll leave that up to you).</p>
+
+<pre><code class="r">p = ggplot(df,aes(x=reorder(Location,ThousandBarrel),y=ThousandBarrel))
+p + geom_boxplot() + 
+  scale_y_continuous(labels = comma) +
+  ggtitle(&#39;Distribution of Annual Oil Production By State (1981 - 2016)&#39;) + 
+  coord_flip()
+</code></pre>
+
+<p><img src="https://www.stoltzmaniac.com/wp-content/uploads/2017/04/unnamed-chunk-14-1-4.png" alt="plot of chunk unnamed-chunk-14"/></p>
+
+<h2>Composition - Stacked Bar</h2>
+
+<p><strong>Objective</strong>: Check out the composition of total production by state. It&#39;s interesting to see how the composition was relatively similar across decades until the 2010&#39;s. Texas was 50% of the output!</p>
+
+<h4>Poor Version</h4>
+
+<p>My favorite, the beautiful pie chart! There&#39;s nothing better than this&hellip; (no need for further commentary).</p>
+
+<pre><code class="r">df = data %&gt;%
+  group_by(Location) %&gt;%
+  summarise(ThousandBarrel = sum(ThousandBarrel)) %&gt;%
+  mutate(ThousandBarrel = ThousandBarrel/sum(ThousandBarrel))
+
+df$ThousandBarrel = round(100*df$ThousandBarrel,0)
+
+library(plotrix)
+pie(x=df$ThousandBarrel,labels=df$Location,explode=0.1,col=rainbow(nrow(df)),main=&#39;Percentage of Oil Production by State&#39;)
+</code></pre>
+
+<p><img src="https://www.stoltzmaniac.com/wp-content/uploads/2017/04/unnamed-chunk-15-1-4.png" alt="plot of chunk unnamed-chunk-15"/></p>
+
+<h4>Better Version</h4>
+
+<p>The 1980&#39;s and 2010&#39;s will be missing years in terms of a &ldquo;decade&rdquo; due to the data provided (and it&#39;s only 2017). While the percentage labels are slightly off center, it&#39;s certainly much better than the pie chart. It&#39;s not quite &ldquo;apples-to-apples&rdquo; for a comparison because I created different decades, but you get the idea.</p>
+
+<p>I also created an &ldquo;Other&rdquo; category in order to simplify the output. When you are doing comparisons, it&#39;s typically a good idea to find a way to reduce the number of variables in the output while not removing data by dropping it completely - <strong>do this carefully and transparently!</strong></p>
+
+<pre><code class="r">data$Decade = &#39;1980s&#39;
+data$Decade[data$Year &gt;= 1990] = &#39;1990s&#39;
+data$Decade[data$Year &gt;= 2000] = &#39;2000s&#39;
+data$Decade[data$Year &gt;= 2010] = &#39;2010s&#39;
+data$Decade = as.factor(data$Decade)
+
+top5 = data %&gt;%
+  group_by(Location) %&gt;%
+  summarise(ThousandBarrel = sum(ThousandBarrel)) %&gt;%
+  arrange(-ThousandBarrel) %&gt;%
+  top_n(5) %&gt;%
+  select(Location)
+
+top5List = top5$Location
+
+data$State = &quot;Other&quot;
+
+for(i in 1:length(top5List)){
+  data$State[data$Location == top5List[i]] = top5List[i]
+}
+
+df = data %&gt;%
+  group_by(Decade,State) %&gt;%
+  summarise(ThousandBarrel = sum(ThousandBarrel)) %&gt;%
+  mutate(ThousandBarrel = ThousandBarrel/sum(ThousandBarrel))
+
+df$ThousandBarrel = round(df$ThousandBarrel,3)
+df$text = paste(round(100*df$ThousandBarrel,0),&#39;%&#39;, sep=&#39;&#39;)
+
+p = ggplot(df,aes(x=Decade,y=ThousandBarrel,col=reorder(State,ThousandBarrel),fill=reorder(State,ThousandBarrel)))
+p + geom_bar(stat=&#39;identity&#39;) + 
+  geom_text(aes(label=text),col=&#39;Black&#39;,size = 4, hjust = 0.5, vjust = 3, position = &quot;stack&quot;) + 
+  scale_y_continuous(labels = percent) +
+  ggtitle(&#39;Percentage of Top Oil Producing States by Decade&#39;) + 
+  guides(fill=guide_legend(title=&#39;State&#39;),col=guide_legend(title=&#39;State&#39;)) + 
+  theme(plot.title = element_text(hjust = 0.5))
+</code></pre>
+
+<p><img src="https://www.stoltzmaniac.com/wp-content/uploads/2017/04/unnamed-chunk-16-1-4.png" alt="plot of chunk unnamed-chunk-16"/></p>
+
+<h3>Some other fun concepts are below!</h3>
+
+<p>Some of them are nice, others are terrible! I won&#39;t comment on any of them, but I felt it was necessary to include some other ideas I toyed around with. </p>
+
+<p>Have fun with your data visualizations: be creative, think outside the box, use tools other than computers if it makes sense, fail often but learn quickly. I&#39;m sure I&#39;ll think of a thousand better ways to have illustrated the concepts in this post by tomorrow, so I&#39;ll make updates as I think of them!</p>
+
+<p>Now it&#39;s your turn!</p>
+
+<p>As always, the code used in this post is on my <a href="https://github.com/stoltzmaniac/Data-Visualization-Lesson">GitHub</a></p>
+
+<pre><code class="r">df = data %&gt;% 
+  group_by(Location) %&gt;%
+  summarise(ThousandBarrel = sum(ThousandBarrel)) %&gt;%
+  arrange(-ThousandBarrel)
+p = ggplot(df,aes(x=reorder(Location,ThousandBarrel),y=ThousandBarrel))
+p + geom_bar(stat=&#39;identity&#39;) + 
+  ggtitle(&#39;Oil Production 1981 - 2016 By Location&#39;) + 
+  theme(plot.title = element_text(hjust = 0.5)) + 
+  coord_flip()
+</code></pre>
+
+<p><img src="https://www.stoltzmaniac.com/wp-content/uploads/2017/04/unnamed-chunk-17-1-4.png" alt="plot of chunk unnamed-chunk-17"/></p>
+
+<pre><code class="r">top10 = data %&gt;%
+  group_by(Location) %&gt;%
+  summarise(ThousandBarrel = sum(ThousandBarrel)) %&gt;%
+  arrange(-ThousandBarrel) %&gt;%
+  top_n(10)
+</code></pre>
+
+<pre><code>## Selecting by ThousandBarrel
+</code></pre>
+
+<pre><code class="r">print(top10)
+</code></pre>
+
+<pre><code>## # A tibble: 10 × 2
+##       Location ThousandBarrel
+##          &lt;chr&gt;          &lt;dbl&gt;
+## 1        Texas       23447172
+## 2       Alaska       15775279
+## 3   California        9988225
+## 4    Louisiana        4267246
+## 5     Oklahoma        3701224
+## 6      Wyoming        2894624
+## 7       Kansas        1708873
+## 8     Colorado        1288643
+## 9         Utah         894657
+## 10 Mississippi         861999
+</code></pre>
+
+<pre><code class="r">df = data %&gt;% 
+  group_by(Location,Year) %&gt;%
+  filter(Location %in% top10$Location) %&gt;%
+  summarise(ThousandBarrel = sum(ThousandBarrel)) 
+p = ggplot(df,aes(x=Year,y=ThousandBarrel,col=Location,fill=Location))
+p + geom_bar(stat=&#39;identity&#39;) + 
+  ggtitle(&#39;Oil Production - Top 10 States&#39;) + 
+  theme(plot.title = element_text(hjust = 0.5)) + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+</code></pre>
+
+<p><img src="https://www.stoltzmaniac.com/wp-content/uploads/2017/04/unnamed-chunk-18-1-4.png" alt="plot of chunk unnamed-chunk-18"/></p>
+
+<pre><code class="r">df = data %&gt;%
+  filter(Year == 1990)%&gt;%
+  group_by(Location) %&gt;%
+  summarise(ThousandBarrel = sum(ThousandBarrel))
+df$Location = tolower(df$Location)
+
+#Add States without data
+States = data.frame(Location = tolower(as.character(state.name)))
+missingStates = States$Location[!(States$Location %in% df$Location)]
+appendData = data.frame(Location=missingStates,ThousandBarrel=0)
+df = rbind(df,appendData)
+
+states_map &lt;- map_data(&quot;state&quot;)
+
+ggplot(df, aes(map_id = Location)) + 
+    geom_map(aes(fill=ThousandBarrel), map = states_map) +
+    expand_limits(x = states_map$long, y = states_map$lat)
+</code></pre>
+
+<p><img src="https://www.stoltzmaniac.com/wp-content/uploads/2017/04/unnamed-chunk-19-1-4.png" alt="plot of chunk unnamed-chunk-19"/></p>
+
+<pre><code class="r">df = data %&gt;% 
+  filter(Location == &#39;Texas&#39;) %&gt;%
+  group_by(Year,Month) %&gt;%
+  summarise(ThousandBarrel = sum(ThousandBarrel))
+
+p = ggplot(df,aes(x=Month,y=ThousandBarrel))
+p + geom_line(stat=&#39;identity&#39;,aes(group=Year,col=Year)) + 
+  ggtitle(&#39;Oil Production By Year in the U.S.&#39;) + 
+  theme(plot.title = element_text(hjust = 0.5)) + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+</code></pre>
+
+<p><img src="https://www.stoltzmaniac.com/wp-content/uploads/2017/04/unnamed-chunk-20-1-4.png" alt="plot of chunk unnamed-chunk-20"/></p>
+

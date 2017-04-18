@@ -64,14 +64,16 @@ Now, let's talk about publishing content that isn't for academic use but will re
 Here is a great example from [Junk Charts](http://junkcharts.typepad.com/junk_charts/2017/04/what-does-lying-politicians-have-in-common-with-rainbow-colors.html) in which the author of the original [Daily Kos Article](http://www.dailykos.com/story/2016/8/7/1556666/-Three-lessons-from-the-rise-of-Donald-Trump) is showing a type of "lie detector" chart. The chart does a number of things well: it illustrates a relevant point, it is appropriate to the audience and medium, and really helps to understand the subject matter better. However, the original chart is too colorful which takes away from its effectiveness. Junk Charts took it to the next level by simplifying the colors and axes.  
 
 
-```{r, echo=FALSE,results='hide', warning=FALSE, message=FALSE}
-library(gridExtra)
-```
+#### Original Version (Daily Kos)
+```{r, fig.align='center',echo=FALSE,fig.height=6,fig.show='hold'}
+img = readPNG("images/lie_chart_bad.png")
+grid.raster(img)
+```  
 
-```{r, fig.align='center',echo=FALSE,fig.height=5,fig.show='hold'}
-img1 = rasterGrob(as.raster(readPNG("images/lie_chart_bad.png"),interpolate=FALSE))
-img2 = rasterGrob(as.raster(readPNG("images/lie_chart_fixed.png"),interpolate=FALSE))
-grid.arrange(img1,img2,ncol=2)
+#### Modified Version (Junk Charts)
+```{r, fig.align='center',echo=FALSE,fig.height=6,fig.show='hold'}
+img = readPNG("images/lie_chart_fixed.png")
+grid.raster(img)
 ```  
 
 By merely looking at this chart you can see how it is ranked, a sense of scale, the comparison between people, and clearly labeled names. Fantastic work!  
