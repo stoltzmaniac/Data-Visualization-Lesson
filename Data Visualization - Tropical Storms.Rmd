@@ -1,0 +1,33 @@
+---
+title: "Tropical Storm Data"
+author: "Scott Stoltzman"
+date: "9/12/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+```{r}
+library(tidyverse)
+library(ggthemes)
+```
+```{r}
+data = read_csv('data/Historical_Tropical_Storm_Tracks.csv')
+head(data)
+```
+
+```{r}
+top_names = data %>%
+  filter(NAME != 'NOTNAMED' & NAME != 'SUBTROP1') %>%
+  group_by(NAME) %>%
+  summarise(Years_Used = n_distinct(YEAR)) %>%
+  arrange(-Years_Used)
+top_names
+```
+```{r}
+p = ggplot(top_names %>% top_n(10), aes(x = reorder(NAME, Years_Used), y = Years_Used)) + theme_economist()
+p + geom_bar(stat='identity') + coord_flip() + xlab('') + ggtitle('Most Used Tropical Storm Names')
+```
+
