@@ -12,8 +12,12 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 ```{r}
 library(tidyverse)
 library(ggthemes)
+library(leaflet)
+library(leaflet.extras)
+library(ggmap)
 ```
 ```{r}
+# data source https://data.world/dhs/historical-tropical-storm
 data = read_csv('data/Historical_Tropical_Storm_Tracks.csv')
 head(data)
 ```
@@ -27,7 +31,82 @@ top_names = data %>%
 top_names
 ```
 ```{r}
-p = ggplot(top_names %>% top_n(10), aes(x = reorder(NAME, Years_Used), y = Years_Used)) + theme_economist()
+p = ggplot(top_names %>% top_n(15), aes(x = reorder(NAME, Years_Used), y = Years_Used)) + theme_economist()
 p + geom_bar(stat='identity') + coord_flip() + xlab('') + ggtitle('Most Used Tropical Storm Names')
+```
+
+```{r}
+df = data %>% 
+  group_by(LAT,LONG) %>%
+  summarise(n = n())
+
+```
+
+```{r}
+df = data %>% 
+  group_by(LAT,LONG) %>%
+  summarise(n = n())
+
+m = leaflet(df) %>% 
+  setView(-95,30,zoom=3) %>%
+  addProviderTiles("Stamen.TonerLite", options = providerTileOptions(noWrap = TRUE)) %>% 
+  addWebGLHeatmap(lng = ~LONG, lat = ~LAT, size = 100000)
+m
+```
+
+
+```{r}
+
+```
+
+```{r, fig.width=8}
+bc_bbox <- make_bbox(lat = LAT, lon = LONG, data = data)
+bc_big <- get_map(c(lon=-95,lat=30), zoom=4, source = "google", maptype = "terrain")
+ggmap(bc_big) + 
+  geom_point(data = data, mapping = aes(x = LONG, y = LAT),col='red',alpha=0.2) + facet_wrap(~CAT)
+```
+
+
+```{r,fig.width=8}
+ggmap(bc_big) + 
+  geom_density_2d(data = data, mapping = aes(x = LONG, y = LAT), size = 0.5) + 
+  stat_density2d(data = data, 
+    aes(x = LONG, y = LAT, fill = ..level.., alpha = ..level..), size = 0.1, 
+    bins = 20, geom = "polygon") + scale_fill_gradient(low = "green", high = "red", 
+    guide = FALSE) + scale_alpha(range = c(0.1, 0.5), guide = FALSE) + 
+  facet_wrap(~CAT)
+```
+
+
+```{r}
+df = data %>%
+  filter(NAME == "HARVEY") %>%
+  group_by(LAT,LONG) %>%
+  summarise(n = n())
+df
+m = leaflet(df) %>% 
+  setView(-95,30,zoom=3) %>%
+  addProviderTiles("Stamen.TonerLite", options = providerTileOptions(noWrap = TRUE)) %>% 
+  addWebGLHeatmap(lng = ~LONG, lat = ~LAT, size = 800000)
+m
+```
+
+
+```{r}
+df = data %>%
+  filter(NAME == "IRMA") %>%
+  group_by(LAT,LONG) %>%
+  summarise(n = n())
+df
+m = leaflet(df) %>% 
+  setView(-95,30,zoom=3) %>%
+  addProviderTiles("Stamen.TonerLite", options = providerTileOptions(noWrap = TRUE)) %>% 
+  addWebGLHeatmap(lng = ~LONG, lat = ~LAT, size = 800000)
+m
+```
+
+
+```{r}
+
 ```
 
