@@ -6,7 +6,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 ```
 
 ```{r}
@@ -15,11 +15,12 @@ library(ggthemes)
 library(leaflet)
 library(leaflet.extras)
 library(ggmap)
+library(htmlwidgets)
 ```
 ```{r}
 # data source https://data.world/dhs/historical-tropical-storm
 data = read_csv('data/Historical_Tropical_Storm_Tracks.csv')
-head(data)
+#head(data)
 ```
 
 ```{r}
@@ -28,7 +29,7 @@ top_names = data %>%
   group_by(NAME) %>%
   summarise(Years_Used = n_distinct(YEAR)) %>%
   arrange(-Years_Used)
-top_names
+#top_names
 ```
 ```{r}
 p = ggplot(top_names %>% top_n(15), aes(x = reorder(NAME, Years_Used), y = Years_Used)) + theme_economist()
@@ -52,23 +53,23 @@ m = leaflet(df) %>%
   addProviderTiles("Stamen.TonerLite", options = providerTileOptions(noWrap = TRUE)) %>% 
   addWebGLHeatmap(lng = ~LONG, lat = ~LAT, size = 100000)
 m
+saveWidget(m, file="hurricane_leaflet.html")
 ```
 
 
-```{r}
-
-```
-
-```{r, fig.width=8}
-bc_bbox <- make_bbox(lat = LAT, lon = LONG, data = data)
-bc_big <- get_map(c(lon=-95,lat=30), zoom=4, source = "google", maptype = "terrain")
-ggmap(bc_big) + 
-  geom_point(data = data, mapping = aes(x = LONG, y = LAT),col='red',alpha=0.2) + facet_wrap(~CAT)
+```{r, fig.width=10}
+#bbox <- make_bbox(lat = LAT, lon = LONG, data = data)
+#bc_big <- get_map(c(lon=-95,lat=30), zoom=4, source = "google", maptype = "terrain")
+big_map <- get_googlemap(c(lon=-95, lat=30), zoom = 4, maptype = "terrain")
+ggmap(big_map, extent='panel') + 
+  geom_point(data = data, mapping = aes(x = LONG, y = LAT),col='red',alpha=0.1)
 ```
 
 
-```{r,fig.width=8}
-ggmap(bc_big) + 
+-----
+
+```{r, fig.width = 10}
+ggmap(big_map) + 
   geom_density_2d(data = data, mapping = aes(x = LONG, y = LAT), size = 0.5) + 
   stat_density2d(data = data, 
     aes(x = LONG, y = LAT, fill = ..level.., alpha = ..level..), size = 0.1, 
@@ -79,34 +80,19 @@ ggmap(bc_big) +
 
 
 ```{r}
-df = data %>%
-  filter(NAME == "HARVEY") %>%
-  group_by(LAT,LONG) %>%
-  summarise(n = n())
-df
-m = leaflet(df) %>% 
-  setView(-95,30,zoom=3) %>%
-  addProviderTiles("Stamen.TonerLite", options = providerTileOptions(noWrap = TRUE)) %>% 
-  addWebGLHeatmap(lng = ~LONG, lat = ~LAT, size = 800000)
-m
-```
+df = data %>% 
+  filter(PRESSURE > 0) %>%
+  filter(grepl("H", CAT)) %>%
+  group_by(CAT,YEAR,MONTH,DAY,LAT,LONG) %>%
+  summarise(MEAN_WIND_KTS = mean(WIND_KTS), MEAN_PRESSURE = mean(PRESSURE)) %>%
+  arrange(MEAN_WIND_KTS)
+df$CAT = factor(df$CAT)
 
+p = ggplot(df,aes(x=MEAN_WIND_KTS, y = MEAN_PRESSURE, fill = CAT)) + theme_economist()
+p + geom_hex(alpha = 0.8) + scale_fill_brewer(direction = -1, palette = "Spectral") + theme(legend.position = 'right')
 
-```{r}
-df = data %>%
-  filter(NAME == "IRMA") %>%
-  group_by(LAT,LONG) %>%
-  summarise(n = n())
-df
-m = leaflet(df) %>% 
-  setView(-95,30,zoom=3) %>%
-  addProviderTiles("Stamen.TonerLite", options = providerTileOptions(noWrap = TRUE)) %>% 
-  addWebGLHeatmap(lng = ~LONG, lat = ~LAT, size = 800000)
-m
-```
-
-
-```{r}
+#ggmap(big_map, extent='panel') + 
+#  geom_point(data = df, mapping = aes(x = LONG, y = LAT, col = CAT),alpha=0.5)
 
 ```
 
