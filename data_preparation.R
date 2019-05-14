@@ -15,9 +15,7 @@ getData = function(){
   data = data[data$Date != '',]
   
   #Convert data 
-  df = data.frame(data %>% gather(Date,ThousandBarrel))
-  df$Location = df$Date.1
-  df$Date.1 = NULL
+  df = data.frame(data %>% gather(Location,ThousandBarrel, -Date))
 
   df = data.frame(df %>% separate(Date,c('Month','Year'),"-"))
   df$Date = as.Date(as.yearmon(paste(df$Month,df$Year)))
